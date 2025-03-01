@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import henry from '../assets/henry.jpeg'
+
+const posts = (await getCollection('post'))
+  .sort((a, b) => {
+    return b.data.date.getTime() - a.data.date.getTime()
+  })
+---
+
+<Layout title="Thoughts">
+  <section class="flex flex-col pt-12 gap-4">
+    <h1 class="text-2xl">Thoughts</h1>
+    <p class="text-lg">Random musings and ramblings.</p>
+
+    <div class="flex flex-col w-full mt-8 gap-8">
+      {posts.map((post) => {
+        return (
+          <a class="flex flex-col p-4 -m-4 border border-transparent hover:border-stone-200 dark:hover:border-stone-700 transition-all"
+             href={`/thoughts/${post.id}`}>
+            <p
+              class="text-md uppercase text-stone-500 dark:text-stone-300">{post.data.date.toLocaleString(
+              'en-US', {
+                year: 'numeric',
+                month: 'long'
+              }
+            )}</p>
+            <h3 class="text-xl">
+              {post.data.title}
+            </h3>
+            <p
+              class="text-lg pt-2 text-secondary italic">{post.data.description}</p>
+          </a>
+        )
+      })}
+    </div>
+  </section>
+</Layout>
+

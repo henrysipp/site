@@ -1,0 +1,6 @@
+---
+const { ...props } = Astro.props;
+---
+<blockquote class="mb-4 border-l-4 pl-4 border-red-800/90 dark:border-red-400/60 [&>p]:my-0!" {...props}>
+  <slot />
+</blockquote>

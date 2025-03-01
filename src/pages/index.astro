@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import henry from '../assets/henry.jpeg'
+
+const posts = (await getCollection('post'))
+  .sort((a, b) => {
+    return b.data.date.getTime() - a.data.date.getTime()
+  })
+---
+
+<Layout extended>
+  <section
+    class="flex flex-col sm:flex-row items-center sm:items-start gap-8 pt-12">
+    <div class="w-48 h-48 rounded-full overflow-hidden">
+      <Image src={henry} alt="Picture of Henry"
+             class="w-full h-full grayscale" />
+    </div>
+    <div class="flex flex-col items-start flex-1">
+      <p class="text-xl/9">
+        Software Engineer and Entrepreneur with a focus on frontend web and iOS.
+        Currently at
+        <a
+          class="underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+          href="https://meta.com">Meta</a>
+        working on Facebook Groups.
+        <br />
+        Owner of
+        <a
+          class="underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+          href="#">The Sipping Company</a>, an independent specialty coffee
+        roaster.
+        <br />
+        Previously founded and managed Hokum Guru, a
+        software consultancy.
+      </p>
+      <a
+        class="text-xl underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+        href="/about">Read More</a>
+    </div>
+  </section>
+  <section class="flex flex-col pt-16">
+    <h1 class="text-2xl">Recent Posts</h1>
+    <div class="flex flex-col pt-8 gap-8">
+      {posts.slice(0, 3).map((post) => {
+        return (
+          <a class="flex flex-col p-4 -m-4 border border-transparent hover:border-stone-200 dark:hover:border-stone-700 transition-all"
+             href={`/thoughts/${post.id}`}>
+            <p class="text-md text-secondary">{post.data.date.toLocaleString(
+              'en-US', {
+                year: 'numeric',
+                month: 'long'
+              }
+            )}</p>
+            <h3 class="text-xl">
+              {post.data.title}
+            </h3>
+            <p class="text-lg pt-2">{post.data.description}</p>
+          </a>
+        )
+      })}
+    </div>
+  </section>
+</Layout>
+

@@ -1,0 +1,7 @@
+---
+const { id, ...props } = Astro.props;
+---
+<h1 id={id} class="text-2xl w-full mt-12 mb-4 md:-ml-[2ch]" {...props}>
+  <span class="text-red text-2xl! w-[2ch]">#</span>
+  <slot />
+</h1>

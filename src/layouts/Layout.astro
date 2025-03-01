@@ -1,0 +1,69 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import Navbar from '../components/Navbar.astro'
+import '../styles/global.css'
+import Footer from '../components/Footer.astro'
+
+const { extended, title = "Home", description = "Personal website of Henry Sipp" } = Astro.props
+const pageTitle = title === "Home" ? "Henry Sipp" : `Henry Sipp | ${title}`
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+  <meta name="theme-color" content="#f5f5f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={description} />
+  <meta name="author" content="Henry Sipp" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:site_name" content="Henry Sipp" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content={pageTitle} />
+  <meta property="twitter:description" content={description} />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Preload IA Writer Fonts -->
+  <link rel="preload" href="/src/assets/font/iA Writer Mono/Webfonts/iAWriterMonoS-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/src/assets/font/iA Writer Duo/Webfonts/iAWriterDuoS-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/src/assets/font/iA Writer Quattro/Webfonts/iAWriterQuattroS-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  
+  <title>{pageTitle}</title>
+</head>
+<body class="bg-stone-50 dark:bg-stone-900 text-primary">
+<div class="mx-auto w-full px-4 sm:px-8 max-w-[100ch]">
+  <Navbar />
+</div>
+<div
+  class:list={[
+    'w-full mx-auto px-4 sm:px-8',
+    extended ? 'max-w-[100ch]' : 'max-w-[80ch]'
+  ]}>
+  <main class="pb-12">
+    <slot />
+  </main>
+  <Footer />
+</div>
+</body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

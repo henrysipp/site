@@ -1,0 +1,20 @@
+---
+const { headings }= Astro.props
+console.log(headings)
+---
+
+<div>
+  <ul class="text-lg/9">
+    {(headings ?? [])
+      .filter((h) => h.depth=== 1)
+      .map((heading) => (
+      <li>
+        <a
+          class="underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+          href={`#${heading.slug}`}>
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

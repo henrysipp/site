@@ -1,0 +1,75 @@
+---
+import { render, getEntry } from 'astro:content'
+import { Image } from 'astro:assets'
+import Layout from '../layouts/Layout.astro'
+import Heading from '../components/Markdown/Heading.astro'
+import Divider from '../components/Divider.astro'
+
+import henry from '../assets/henry.jpeg'
+import Prose from '../components/Prose.astro'
+
+const entry = await getEntry('page', 'about')
+const { Content: About, components, headings } = await render(entry)
+---
+
+<style>
+  .summary-1 {
+    p {
+      display: block;
+      font-size: var(--text-xl);
+    }
+
+ 
+    @media (max-width: 640px) {
+      p {
+        display: inline;
+        font-size: var(--text-2xl);
+      }
+    }
+  }
+</style>
+
+<Layout extended title="About">
+  <section
+    class="flex flex-col md:flex-row items-center md:items-start pt-12 gap-12 md:gap-12">
+    <div class="summary flex-1 text-left">
+      <p class="text-2xl/8 md:text-xl/8">
+      Hi, I'm Henry, A software engineer, entrepreneur,
+      <br class="hidden lg:inline"/>
+      father of one (soon to be two!) and husband to
+      <br class="hidden lg:inline"/>
+      an astonishingly brilliant wife.
+      <br />
+        <br />
+      I have worked as an engineer for ten years,
+      <br class="hidden lg:inline"/>
+      from startups to FAANG and everything
+      <br class="hidden lg:inline"/>
+      in between.
+      <br />
+      <br />
+      I am currently employed at Meta, where I work
+      <br class="hidden lg:inline"/>
+      on Facebook Groups for iPhone and Web.
+      </p>
+    </div>
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-48 h-48 rounded-full overflow-hidden">
+        <Image src={henry} alt="Picture of Henry"
+               class="w-full h-full grayscale" />
+      </div>
+      <div class="text-center flex flex-col items-center">
+        <p class="text-xl">Contact Me</p>
+        <a href="#" class="text-xl text-red hover:text-yellow">henry.sipp@hey.com</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="pt-16">
+    <Divider />
+  </div>
+
+  <section class="w-full max-w-[80ch] mx-auto flex flex-col pt-8">
+    <Prose Content={About} components={components} />
+  </section>
+</Layout>
