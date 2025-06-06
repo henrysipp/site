@@ -44,22 +44,21 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@utility text-red {
-  color: var(--color-red-800);
+@utility text-link {
+  /* color: var(--color-red-800); */
   opacity: 90%;
   @variant dark {
-    color: var(--color-red-400);
+    /* color: var(--color-red-400); */
     opacity: 60%;
   }
 }
 
 @utility text-yellow {
-  color: var(--color-yellow-600);
+  /* color: var(--color-yellow-600); */
   opacity: 70%;
 
   @variant dark {
-
-    color: var(--color-yellow-400);
+    /* color: var(--color-yellow-400); */
     opacity: 70%;
   }
 }

@@ -22,13 +22,13 @@ const posts = (await getCollection('post'))
         Software Engineer and Entrepreneur with a focus on frontend web and iOS.
         Currently at
         <a
-          class="underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+          class="underline decoration-dotted hover:decoration-solid text-link hover:text-yellow"
           href="https://meta.com">Meta</a>
         working on Facebook Groups.
         <br />
         Owner of
         <a
-          class="underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+          class="underline decoration-dotted hover:decoration-solid text-link hover:text-yellow"
           href="#">The Sipping Company</a>, an independent specialty coffee
         roaster.
         <br />
@@ -36,7 +36,7 @@ const posts = (await getCollection('post'))
         software consultancy.
       </p>
       <a
-        class="text-xl underline decoration-dotted hover:decoration-solid text-red hover:text-yellow"
+        class="text-xl underline decoration-dotted hover:decoration-solid text-link hover:text-yellow"
         href="/about">Read More</a>
     </div>
   </section>
@@ -45,7 +45,7 @@ const posts = (await getCollection('post'))
     <div class="flex flex-col pt-8 gap-8">
       {posts.slice(0, 3).map((post) => {
         return (
-          <a class="flex flex-col p-4 -m-4 border border-transparent hover:border-stone-200 dark:hover:border-stone-700 transition-all"
+          <a class="flex flex-col p-4 -m-4 border border-transparent hover:border-black/10 dark:hover:border-stone-700 transition-all"
              href={`/thoughts/${post.id}`}>
             <p class="text-md text-secondary">{post.data.date.toLocaleString(
               'en-US', {

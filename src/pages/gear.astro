@@ -12,20 +12,19 @@ const { Content: About, components, headings } = await render(entry)
 ---
 
 <Layout extended title="Gear">
-  <section class="flex flex-col pt-12 gap-4">
-    <h1 class="text-2xl">What I Use</h1>
-    <p>Inspired by my friend <a
-      class="underline decoration-dotted hover:decoration-solid text-red-800/90 dark:text-red-400/60 hover:text-yellow-600/70"
-      href="https://nicknisi.com/uses/">Nick Nisi</a>, below is an assortment
-      <br class="hidden md:inline"/>
-      of the tools that I enjoy using on a daily basis.
-    </p>
+  <div class="flex flex-col pt-12 gap-4">
+    <section class="w-full max-w-[80ch] mx-auto">
+      <h1 class="text-2xl">What I Use</h1>
+      <p>
+        A somewhat exhaustive list of the software, hardware, and miscellaneous
+        tools that I use on a daily basis.
+      </p>
 
-    <TableOfContents headings={headings} />
-    <Divider />
+      <TableOfContents headings={headings} />
+      <Divider />
+    </section>
     <section class="w-full max-w-[80ch] mx-auto flex flex-col pt-8">
       <Prose Content={About} components={components} />
     </section>
-  </section>
+  </div>
 </Layout>
-
