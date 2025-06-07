@@ -1,8 +1,10 @@
 ---
+import Divider from "./Divider.astro";
+
 
 ---
 <div transition:name="navbar" transition:persist
-     class="w-full font-serif opacity-100 transition-opacity duration-500">
+     class="w-full opacity-100 transition-opacity duration-500">
   <div
     class="grid grid-cols-[auto_1fr_auto] items-center h-24 gap-4">
     <div class="flex flex-row items-center h-full">
@@ -18,28 +20,28 @@
 
     <div class="text-lg flex flex-row items-center justify-center gap-3 sm:gap-6">
       <a
-        class="text-secondary hover:text-primary transition-colors duration-200"
+        class="text-primary hover:text-primary transition-colors duration-200"
         href="/about">About</a>
       <a
-        class="text-secondary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
+        class="text-primary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
         href="/thoughts">Thoughts</a>
       <a
-        class="text-secondary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
+        class="text-primary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
         href="/gear">Gear</a>
       <!--<a-->
       <!--  class="text-secondary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"-->
       <!--  href="/videos">Videos</a>-->
-      <a
-        class="text-secondary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
-        href="/photography">Photos</a>
+      <!-- <a
+        class="text-primary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
+        href="/photography">Photos</a> -->
     </div>
 
     <div class="text-lg flex-col items-end hidden sm:flex">
       <a
-        class="text-secondary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
+        class="text-primary hover:text-primary hover:dark:text-stone-50 transition-colors duration-200"
         href="#">Social</a>
     </div>
   </div>
 
-  <hr class="w-full h-px border-black/10 dark:border-stone-700" />
+  <Divider />
 </div>

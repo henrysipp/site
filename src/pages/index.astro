@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import Layout from '../layouts/Layout.astro'
-import henry from '../assets/henry.jpeg'
+import henry from '../assets/henry.jpg'
 
 const posts = (await getCollection('post'))
   .sort((a, b) => {
@@ -14,7 +14,7 @@ const posts = (await getCollection('post'))
   <section
     class="flex flex-col sm:flex-row items-center sm:items-start gap-8 pt-12">
     <div class="w-48 h-48 rounded-full overflow-hidden">
-      <Image src={henry} alt="Picture of Henry"
+      <Image loading='eager' src={henry} alt="Henry"
              class="w-full h-full grayscale" />
     </div>
     <div class="flex flex-col items-start flex-1">

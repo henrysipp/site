@@ -33,17 +33,19 @@ const images = import.meta.glob('../../assets/*.jpg')
 
 <Layout title={post.data.title}>
 
-  <div class="relative w-screen max-w-none mx-[calc(50%-50vw)] sm:h-[calc(100vh-6rem)]">
-    <Image
-      class="w-full h-full object-cover"
-      src={getImageForImageName(post.data.image.url)()}
-      alt={post.data.image.alt}
-    />
-  </div>
+  {post.data.image && (
+    <div class="relative w-screen max-w-none mx-[calc(50%-50vw)] sm:h-[calc(100vh-6rem)]">
+      <Image
+        class="w-full h-full object-cover"
+        src={getImageForImageName(post.data.image.url)()}
+        alt={post.data.image.alt}
+      />
+    </div>
+  )}
 
   <!--<Image src={post.data.image} alt="" />-->
   <div class="flex flex-col pt-12 pb-4 items-center sm:items-start">
-    <h1 class="text-5xl! text-center sm:text-left">
+    <h1 class="text-5xl! font-semibold text-center sm:text-left">
       {post.data.title}
     </h1>
     <div class="flex flex-col items-start pt-2">
@@ -52,7 +54,7 @@ const images = import.meta.glob('../../assets/*.jpg')
         <Divider />
       </div>
     </div>
-    <p class="text-base! pt-4 text-secondary">
+    <p class="text-lg/8! pt-4 text-secondary">
       Published {post.data.date.toLocaleString('en-US', {
       year: 'numeric',
       month: 'long'

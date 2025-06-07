@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import Layout from '../layouts/Layout.astro'
-import henry from '../assets/henry.jpeg'
+import henry from '../assets/henry.jpg'
 
 const posts = (await getCollection('post'))
   .sort((a, b) => {
