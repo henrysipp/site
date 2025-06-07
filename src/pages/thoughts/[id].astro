@@ -6,7 +6,8 @@ import Divider from '../../components/Divider.astro'
 import Prose from '../../components/Prose.astro'
 
 export async function getStaticPaths() {
-  const posts = await getCollection('post')
+  let posts = await getCollection('post')
+  posts = posts.filter((post) => !post.data.draft)
   return posts.map(post => ({
     params: { id: post.id },
     props: { post }

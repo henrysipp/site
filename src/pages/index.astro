@@ -5,9 +5,12 @@ import Layout from '../layouts/Layout.astro'
 import henry from '../assets/henry.jpg'
 
 const posts = (await getCollection('post'))
+  .filter((post) => !post.data.draft)
   .sort((a, b) => {
     return b.data.date.getTime() - a.data.date.getTime()
   })
+
+  console.log({ posts})
 ---
 
 <Layout extended>
