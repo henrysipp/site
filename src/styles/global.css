@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
 @utility text-secondary {
   color: var(--color-stone-600);
   @variant dark {
-    color: var(--color-stone-400);
+    color: var(--color-stone-200);
   }
 }
 
