@@ -21,16 +21,16 @@ const { title, description } = Astro.props;
 		<BaseHead title={title} description={description} />
 		<ViewTransitions />
 	</head>
-	<body class="min-h-screen h-full w-full bg-mist-100 dark:bg-mist-900 overflow-x-hidden">
+	<body class="min-h-screen h-full w-full bg-mist-50 dark:bg-mist-900 overflow-x-hidden">
 		<!-- Mobile Header -->
-		<header class="md:hidden sticky top-0 z-30 bg-white dark:bg-mist-950 px-6 py-4 flex items-center justify-between">
+		<header class="md:hidden sticky top-0 z-30 bg-mist-50 dark:bg-mist-950 px-6 py-4 flex items-center justify-between">
 			<a href="/" class="text-xl font-bold text-mist-900 dark:text-white hover:text-mist-700 dark:hover:text-mist-300">
 				{SITE_TITLE}
 			</a>
 			<MobileNav />
 		</header>
 
-		<div class="bg-white dark:bg-mist-950 rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-6 md:px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
+		<div class="bg-mist-50 dark:bg-mist-950 rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-6 md:px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
 			<aside class="hidden md:block md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
 				<nav class="space-y-2 flex flex-col">
 					<NavLink href="/">Home</NavLink>
