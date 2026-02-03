@@ -13,8 +13,8 @@ const isActive = currentPath === href;
 	class:list={[
 		'block text-base transition-colors',
 		isActive
-			? 'font-semibold text-gray-900'
-			: 'text-gray-600 hover:text-gray-900 hover:font-semibold',
+			? 'font-semibold text-mist-900 dark:text-white'
+			: 'text-mist-600 dark:text-mist-400 hover:text-mist-900 dark:hover:text-white hover:font-semibold',
 	]}
 >
 	<slot />

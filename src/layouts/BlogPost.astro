@@ -24,8 +24,8 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				/>
 			</div>
 		)}
-		<div class="mb-8 border-b border-gray-200 pb-8">
-			<Text class="mb-2 text-sm text-gray-500">
+		<div class="mb-8 border-b border-mist-200 dark:border-mist-800 pb-8">
+			<Text size="sm" class="mb-2">
 				<FormattedDate date={pubDate} />
 				{updatedDate && (
 					<span class="italic">
@@ -35,7 +35,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			</Text>
 			<Heading>{title}</Heading>
 		</div>
-		<div class="prose prose-gray max-w-none">
+		<div class="prose prose-mist max-w-none">
 			<slot />
 		</div>
 	</article>

@@ -14,15 +14,15 @@ const { title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark:bg-mist-900">
 	<head>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body class="min-h-screen h-full w-full bg-gray-100 ">
-		<div class="bg-white rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
-			<aside transition:persist class="sticky md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
+	<body class="min-h-screen h-full w-full bg-mist-100 dark:bg-mist-900">
+		<div class="bg-white dark:bg-mist-950 rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
+			<aside class="sticky bg-mist-100 dark:bg-mist-950 md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
 				<div class="py-4 md:py-0 md:hidden">
-					<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700">
+					<a href="/" class="text-xl font-bold text-mist-900 dark:text-white hover:text-mist-700 dark:hover:text-mist-300">
 						{SITE_TITLE}
 					</a>
 				</div>
@@ -33,7 +33,7 @@ const { title, description } = Astro.props;
 					<NavLink href="/gear">Gear</NavLink>
 				</nav>
 			</aside>
-			<div class="flex flex-1 flex-col pt-[8rem] md:pt-[12rem] pb-[8rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
+			<div class="flex flex-1 flex-col pt-[3rem] md:pt-[12rem] pb-[8rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
 				<main class="flex-1">
 					<slot />
 				</main>

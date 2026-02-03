@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Heading from '../../components/Heading.astro';
+import Text from '../../components/Text.astro';
 import SidebarLayout from '../../layouts/SidebarLayout.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
@@ -27,15 +28,12 @@ const posts = (await getCollection('blog')).sort(
 								class="mb-3 rounded-xl transition-shadow group-hover:shadow-lg"
 							/>
 						)}
-						<h4 class:list={[
-							'font-semibold text-gray-900 group-hover:text-blue-600',
-							index === 0 ? 'text-2xl' : 'text-lg',
-						]}>
+						<Text emphasized class:list={['group-hover:text-blue-600', index === 0 ? 'text-2xl' : 'text-lg']}>
 							{post.data.title}
-						</h4>
-						<p class="text-sm text-gray-500">
+						</Text>
+						<Text size="sm" class="mt-1">
 							<FormattedDate date={post.data.pubDate} />
-						</p>
+						</Text>
 					</a>
 				</li>
 			))

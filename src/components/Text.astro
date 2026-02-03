@@ -1,12 +1,14 @@
 ---
 interface Props {
-  size?: 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
+  emphasized?: boolean;
   class?: string;
 }
 
-const { size = 'md', class: className } = Astro.props;
+const { size = 'md', emphasized = false, class: className } = Astro.props;
 
 const sizeClasses = {
+  sm: 'text-base/6',
   md: 'text-lg/7',
   lg: 'text-xl/8 sm:text-2xl/9',
 };
@@ -15,7 +17,8 @@ const sizeClasses = {
 <div
   class:list={[
     sizeClasses[size],
-    'text-gray-700',
+    'text-mist-700 dark:text-mist-300',
+    emphasized && 'font-semibold text-mist-900 dark:text-white',
     className,
   ]}
 >
