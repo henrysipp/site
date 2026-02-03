@@ -5,7 +5,7 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Inter', 'system-ui', 'sans-serif'],
-				display: ['"IBM Plex Serif"', 'serif'],
+				display: ['"HW Cigars"', 'serif'],
 			},
 		},
 	},

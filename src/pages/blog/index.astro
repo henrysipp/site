@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import Heading from '../../components/Heading.astro';
 import SidebarLayout from '../../layouts/SidebarLayout.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
@@ -11,7 +12,7 @@ const posts = (await getCollection('blog')).sort(
 ---
 
 <SidebarLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<h1 class="mb-8 text-3xl font-bold">Blog</h1>
+	<Heading class="mb-8">Blog</Heading>
 	<ul class="grid gap-6 sm:grid-cols-2">
 		{
 			posts.map((post, index) => (

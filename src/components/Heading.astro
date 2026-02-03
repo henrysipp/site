@@ -1,0 +1,23 @@
+---
+interface Props {
+  color?: 'dark/light' | 'light';
+  class?: string;
+}
+
+const { color = 'dark/light', class: className } = Astro.props;
+
+const colorClasses = {
+  'dark/light': 'text-gray-950', // dark:text-white',
+  'light': 'text-white',
+};
+---
+
+<h1
+  class:list={[
+    'font-display text-4xl/[1.1] tracking-tight text-balance sm:text-4xl/[1.1] lg:text-5xl/[1.1]',
+    colorClasses[color],
+    className,
+  ]}
+>
+  <slot />
+</h1>

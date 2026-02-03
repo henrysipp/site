@@ -1,0 +1,46 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['relative', className]} data-horizontal-scroller>
+  <div class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent"></div>
+  <div class="flex gap-8 overflow-x-auto px-12 scrollbar-hide" data-scroller-inner>
+    <slot />
+  </div>
+</div>
+
+<script>
+  const scroller = document.querySelector('[data-scroller-inner]') as HTMLElement;
+  if (scroller) {
+    let targetScroll = scroller.scrollLeft;
+    let currentScroll = scroller.scrollLeft;
+    let animating = false;
+
+    scroller.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      targetScroll += e.deltaX || e.deltaY;
+      targetScroll = Math.max(0, Math.min(targetScroll, scroller.scrollWidth - scroller.clientWidth));
+
+      if (!animating) {
+        animating = true;
+        animate();
+      }
+    }, { passive: false });
+
+    function animate() {
+      currentScroll += (targetScroll - currentScroll) * 0.1;
+      scroller.scrollLeft = currentScroll;
+
+      if (Math.abs(targetScroll - currentScroll) > 0.5) {
+        requestAnimationFrame(animate);
+      } else {
+        animating = false;
+      }
+    }
+  }
+</script>

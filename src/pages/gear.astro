@@ -1,0 +1,38 @@
+---
+import SidebarLayout from '../layouts/SidebarLayout.astro';
+import Heading from '../components/Heading.astro';
+import Text from '../components/Text.astro';
+import Subheading from '../components/Subheading.astro'
+---
+
+<SidebarLayout title="Gear" description="The tools and equipment I use">
+	<Heading>Gear</Heading>
+	<Subheading class="mt-2">Things I use and like</Subheading>
+	<div class="mt-8 space-y-8"> <section>
+			<h2 class="text-xl font-semibold text-gray-900 mb-4">Computer</h2>
+			<ul class="space-y-2 text-gray-700">
+				<li>Framework Laptop 16</li>
+				<li>32GB RAM</li>
+				<li>1TB SSD</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-semibold text-gray-900 mb-4">Peripherals</h2>
+			<ul class="space-y-2 text-gray-700">
+				<li>Mechanical Keyboard</li>
+				<li>Logitech MX Master 3</li>
+				<li>27" 4K Monitor</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2 class="text-xl font-semibold text-gray-900 mb-4">Software</h2>
+			<ul class="space-y-2 text-gray-700">
+				<li>VS Code</li>
+				<li>Firefox</li>
+				<li>Obsidian</li>
+			</ul>
+		</section>
+	</div>
+</SidebarLayout>

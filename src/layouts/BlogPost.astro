@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
+import Heading from '../components/Heading.astro';
+import Text from '../components/Text.astro';
 import SidebarLayout from './SidebarLayout.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -23,15 +25,15 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			</div>
 		)}
 		<div class="mb-8 border-b border-gray-200 pb-8">
-			<p class="mb-2 text-sm text-gray-500">
+			<Text class="mb-2 text-sm text-gray-500">
 				<FormattedDate date={pubDate} />
 				{updatedDate && (
 					<span class="italic">
 						 · Last updated on <FormattedDate date={updatedDate} />
 					</span>
 				)}
-			</p>
-			<h1 class="text-3xl font-bold text-gray-900">{title}</h1>
+			</Text>
+			<Heading>{title}</Heading>
 		</div>
 		<div class="prose prose-gray max-w-none">
 			<slot />

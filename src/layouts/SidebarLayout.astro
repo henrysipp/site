@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import NavLink from '../components/NavLink.astro';
+import { SITE_TITLE } from '../consts.ts'
 
 interface Props {
 	title: string;
@@ -17,27 +18,29 @@ const { title, description } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body class="min-h-screen h-full w-full bg-gray-100">
-		<div class="relative grid grid-cols-6 gap-5 px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
-			<aside class="fixed top-[12rem] col-start-1 col-end-7 md:col-end-3">
-				<!--<div class="mb-8">-->
-				<!--	<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700">-->
-				<!--		{SITE_TITLE}-->
-				<!--	</a>-->
-				<!--</div>-->
-				<nav class="space-y-2">
+	<body class="min-h-screen h-full w-full bg-gray-100 ">
+		<div class="bg-white rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
+			<aside transition:persist class="sticky md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
+				<div class="py-4 md:py-0 md:hidden">
+					<a href="/" class="text-xl font-bold text-gray-900 hover:text-gray-700">
+						{SITE_TITLE}
+					</a>
+				</div>
+				<nav class="space-y-2 hidden md:flex flex-col pt-2 md:pt-0">
 					<NavLink href="/">Home</NavLink>
 					<NavLink href="/blog">Blog</NavLink>
 					<NavLink href="/about">About</NavLink>
-					<NavLink href="/about">Gear</NavLink>
+					<NavLink href="/gear">Gear</NavLink>
 				</nav>
 			</aside>
-			<div class="flex flex-1 flex-col pt-[12rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
+			<div class="flex flex-1 flex-col pt-[8rem] md:pt-[12rem] pb-[8rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
 				<main class="flex-1">
 					<slot />
 				</main>
-				<Footer />
 			</div>
 		</div>
+		<!--<div class="fixed bottom-0 left-0 w-full h-[15rem]">-->
+			<Footer />
+		<!--</div>-->
 	</body>
 </html>

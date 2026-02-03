@@ -1,0 +1,24 @@
+---
+interface Props {
+  company: string;
+  title: string;
+  href?: string;
+  class?: string;
+}
+
+const { company, title, href, class: className } = Astro.props;
+---
+
+<div class:list={['flex shrink-0 items-center gap-4', className]}>
+  <span class="flex h-8 w-12 items-center justify-start [&>svg]:h-full [&>svg]:w-auto">
+    <slot />
+  </span>
+  <div class="flex flex-col whitespace-nowrap">
+    {href ? (
+      <a href={href} target="_blank" rel="noopener noreferrer" class="font-medium text-gray-900 hover:underline">{company}</a>
+    ) : (
+      <span class="font-medium text-gray-900">{company}</span>
+    )}
+    <span class="text-sm text-gray-600">{title}</span>
+  </div>
+</div>
