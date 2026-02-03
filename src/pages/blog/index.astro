@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../../components/FormattedDate.astro';
+import SidebarLayout from '../../layouts/SidebarLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<SidebarLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<h1 class="mb-8 text-3xl font-bold">Blog</h1>
+	<ul class="grid gap-6 sm:grid-cols-2">
+		{
+			posts.map((post, index) => (
+				<li class:list={[index === 0 && 'sm:col-span-2']}>
+					<a href={`/blog/${post.id}/`} class="group block">
+						{post.data.heroImage && (
+							<Image
+								width={720}
+								height={360}
+								src={post.data.heroImage}
+								alt=""
+								class="mb-3 rounded-xl transition-shadow group-hover:shadow-lg"
+							/>
+						)}
+						<h4 class:list={[
+							'font-semibold text-gray-900 group-hover:text-blue-600',
+							index === 0 ? 'text-2xl' : 'text-lg',
+						]}>
+							{post.data.title}
+						</h4>
+						<p class="text-sm text-gray-500">
+							<FormattedDate date={post.data.pubDate} />
+						</p>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</SidebarLayout>

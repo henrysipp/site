@@ -1,21 +1,12 @@
 // @ts-check
-import { defineConfig } from 'astro/config'
 
-import tailwindcss from '@tailwindcss/vite'
-import mdx from '@astrojs/mdx'
-import cloudflare from '@astrojs/cloudflare'
-import node from '@astrojs/node'
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import tailwind from '@astrojs/tailwind';
+import { defineConfig } from 'astro/config';
 
+// https://astro.build/config
 export default defineConfig({
-  integrations: [mdx()],
-  vite: {
-    plugins: [tailwindcss()],
-  },
-
-  adapter:
-    process.env.NODE_ENV === 'development'
-      ? node({ mode: 'standalone' })
-      : cloudflare({
-          // imageService: 'cloudflare',
-        }),
-})
+	site: 'https://example.com',
+	integrations: [mdx(), sitemap(), tailwind()],
+});
