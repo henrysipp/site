@@ -1,0 +1,114 @@
+---
+import NavLink from './NavLink.astro';
+---
+
+<div class="md:hidden">
+	<!-- Hamburger Button -->
+	<button
+		id="mobile-nav-toggle"
+		class="relative z-50 w-8 h-8 flex flex-col justify-center items-center gap-1.5"
+		aria-label="Toggle navigation menu"
+		aria-expanded="false"
+	>
+		<span class="hamburger-line w-6 h-0.5 bg-mist-900 dark:bg-white transition-all duration-300 ease-out origin-center"></span>
+		<span class="hamburger-line w-6 h-0.5 bg-mist-900 dark:bg-white transition-all duration-300 ease-out origin-center"></span>
+	</button>
+
+	<!-- Overlay -->
+	<div
+		id="mobile-nav-overlay"
+		class="fixed inset-0 bg-black/20 dark:bg-black/40 z-30 opacity-0 pointer-events-none transition-opacity duration-300"
+	></div>
+
+	<!-- Sheet -->
+	<nav
+		id="mobile-nav-sheet"
+		class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-mist-950 shadow-lg transform -translate-y-full transition-transform duration-300 ease-out"
+	>
+		<div class="px-6 pt-20 pb-8 space-y-4">
+			<NavLink href="/">Home</NavLink>
+			<NavLink href="/blog">Blog</NavLink>
+			<NavLink href="/about">About</NavLink>
+			<NavLink href="/gear">Gear</NavLink>
+		</div>
+	</nav>
+</div>
+
+<script>
+	function setupMobileNav() {
+		const toggle = document.getElementById('mobile-nav-toggle');
+		const sheet = document.getElementById('mobile-nav-sheet');
+		const overlay = document.getElementById('mobile-nav-overlay');
+		const lines = toggle?.querySelectorAll('.hamburger-line');
+
+		if (!toggle || !sheet || !overlay || !lines) return;
+
+		let isOpen = false;
+
+		function openMenu() {
+			isOpen = true;
+			toggle.setAttribute('aria-expanded', 'true');
+
+			// Animate hamburger to X (translate to center, then rotate)
+			(lines[0] as HTMLElement).style.transform = 'translateY(4px) rotate(45deg)';
+			(lines[1] as HTMLElement).style.transform = 'translateY(-4px) rotate(-45deg)';
+
+			// Show sheet
+			sheet.style.transform = 'translateY(0)';
+
+			// Show overlay
+			overlay.style.opacity = '1';
+			overlay.style.pointerEvents = 'auto';
+
+			// Prevent body scroll
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closeMenu() {
+			isOpen = false;
+			toggle.setAttribute('aria-expanded', 'false');
+
+			// Reset hamburger
+			(lines[0] as HTMLElement).style.transform = '';
+			(lines[1] as HTMLElement).style.transform = '';
+
+			// Hide sheet
+			sheet.style.transform = 'translateY(-100%)';
+
+			// Hide overlay
+			overlay.style.opacity = '0';
+			overlay.style.pointerEvents = 'none';
+
+			// Restore body scroll
+			document.body.style.overflow = '';
+		}
+
+		toggle.addEventListener('click', () => {
+			if (isOpen) {
+				closeMenu();
+			} else {
+				openMenu();
+			}
+		});
+
+		overlay.addEventListener('click', closeMenu);
+
+		// Close on escape key
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && isOpen) {
+				closeMenu();
+			}
+		});
+
+		// Close when clicking nav links
+		sheet.querySelectorAll('a').forEach((link) => {
+			link.addEventListener('click', closeMenu);
+		});
+	}
+
+	// Run on initial load
+	setupMobileNav();
+
+	// Re-run after Astro page transitions
+	document.addEventListener('astro:after-swap', setupMobileNav);
+</script>

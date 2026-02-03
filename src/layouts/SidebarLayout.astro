@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import NavLink from '../components/NavLink.astro';
+import MobileNav from '../components/MobileNav.astro';
 import { SITE_TITLE } from '../consts.ts'
 
 interface Props {
@@ -18,22 +19,25 @@ const { title, description } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body class="min-h-screen h-full w-full bg-mist-100 dark:bg-mist-900">
-		<div class="bg-white dark:bg-mist-950 rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
-			<aside class="sticky bg-mist-100 dark:bg-mist-950 md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
-				<div class="py-4 md:py-0 md:hidden">
-					<a href="/" class="text-xl font-bold text-mist-900 dark:text-white hover:text-mist-700 dark:hover:text-mist-300">
-						{SITE_TITLE}
-					</a>
-				</div>
-				<nav class="space-y-2 hidden md:flex flex-col pt-2 md:pt-0">
+	<body class="min-h-screen h-full w-full bg-mist-100 dark:bg-mist-900 overflow-x-hidden">
+		<!-- Mobile Header -->
+		<header class="md:hidden sticky top-0 z-30 bg-white dark:bg-mist-950 px-6 py-4 flex items-center justify-between">
+			<a href="/" class="text-xl font-bold text-mist-900 dark:text-white hover:text-mist-700 dark:hover:text-mist-300">
+				{SITE_TITLE}
+			</a>
+			<MobileNav />
+		</header>
+
+		<div class="bg-white dark:bg-mist-950 rounded-b-3xl relative z-20 grid grid-cols-6 gap-5 px-6 md:px-10 md:grid-cols-12 min-h-screen max-w-screen-2xl mx-auto w-full">
+			<aside class="hidden md:block md:fixed top-0 md:top-[12rem] col-start-1 col-end-7 md:col-end-3">
+				<nav class="space-y-2 flex flex-col">
 					<NavLink href="/">Home</NavLink>
 					<NavLink href="/blog">Blog</NavLink>
 					<NavLink href="/about">About</NavLink>
 					<NavLink href="/gear">Gear</NavLink>
 				</nav>
 			</aside>
-			<div class="flex flex-1 flex-col pt-[3rem] md:pt-[12rem] pb-[8rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
+			<div class="flex flex-1 flex-col pt-6 md:pt-[12rem] pb-[8rem] col-start-1 col-end-7 md:col-start-4 md:col-end-12 lg:col-end-10">
 				<main class="flex-1">
 					<slot />
 				</main>
