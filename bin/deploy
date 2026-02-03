@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+echo "Building site..."
+yarn build
+
+echo "Deploying to Cloudflare..."
+npx wrangler pages deploy dist --project-name site
+
+echo "Deploy complete!"
