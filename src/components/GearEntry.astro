@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  href?: string;
+  image: string;
+  class?: string;
+}
+
+const { title, href, image, class: className } = Astro.props;
+
+const Component = href ? 'a' : 'div';
+const linkProps = href ? { href } : {};
+---
+
+<Component {...linkProps} class:list={['flex flex-col shrink-0 w-48 gap-3 group', className]}>
+  <div class="flex h-48 w-48 items-center justify-center rounded-lg overflow-hidden">
+    <img src={image} alt={title} class="h-full w-full object-cover" />
+  </div>
+  <span class="font-medium text-primary group-hover:underline text-left">{title}</span>
+</Component>

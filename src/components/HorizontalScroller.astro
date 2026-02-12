@@ -1,14 +1,13 @@
 ---
 interface Props {
   class?: string;
+  id?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className, id } = Astro.props;
 ---
 
-<div class:list={['relative -mx-6 md:-mx-12', className]} data-horizontal-scroller>
-  <!-- <div class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white dark:from-mist-950 to-transparent"></div>
-  <div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white dark:from-mist-950 to-transparent"></div> -->
+<div class:list={['relative -mx-6 md:-mx-12', className]} data-horizontal-scroller data-scroller-id={id}>
   <div class="flex gap-8 overflow-x-auto px-6 md:px-12 scrollbar-hide" data-scroller-inner>
     <slot />
   </div>
@@ -16,19 +15,57 @@ const { class: className } = Astro.props;
 
 <script>
   function initScrollers() {
-    const scrollers = document.querySelectorAll('[data-scroller-inner]');
+    const scrollerContainers = document.querySelectorAll('[data-horizontal-scroller]');
     
-    scrollers.forEach((scroller) => {
-      if (!(scroller instanceof HTMLElement)) return;
+    scrollerContainers.forEach((container) => {
+      if (!(container instanceof HTMLElement)) return;
+      
+      const scroller = container.querySelector('[data-scroller-inner]');
+      if (!scroller || !(scroller instanceof HTMLElement)) return;
       
       // Skip if already initialized
       if (scroller.dataset.scrollerInit === 'true') return;
       scroller.dataset.scrollerInit = 'true';
       
+      const scrollerId = container.dataset.scrollerId;
+      const leftBtn = scrollerId ? document.querySelector(`[data-scroll-left-for="${scrollerId}"]`) : null;
+      const rightBtn = scrollerId ? document.querySelector(`[data-scroll-right-for="${scrollerId}"]`) : null;
+      
       let targetScroll = scroller.scrollLeft;
       let currentScroll = scroller.scrollLeft;
       let animating = false;
       let isHovering = false;
+
+      // Update button states
+      function updateButtons() {
+        if (leftBtn instanceof HTMLButtonElement) {
+          leftBtn.disabled = scroller.scrollLeft <= 0;
+        }
+        if (rightBtn instanceof HTMLButtonElement) {
+          rightBtn.disabled = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 1;
+        }
+      }
+
+      // Button click handlers
+      if (leftBtn) {
+        leftBtn.addEventListener('click', () => {
+          targetScroll = Math.max(0, scroller.scrollLeft - 400);
+          if (!animating) {
+            animating = true;
+            animate();
+          }
+        });
+      }
+
+      if (rightBtn) {
+        rightBtn.addEventListener('click', () => {
+          targetScroll = Math.min(scroller.scrollWidth - scroller.clientWidth, scroller.scrollLeft + 400);
+          if (!animating) {
+            animating = true;
+            animate();
+          }
+        });
+      }
 
       scroller.addEventListener('mouseenter', () => {
         isHovering = true;
@@ -55,16 +92,23 @@ const { class: className } = Astro.props;
         }
       }, { passive: false });
 
+      scroller.addEventListener('scroll', updateButtons);
+
       function animate() {
         currentScroll += (targetScroll - currentScroll) * 0.1;
         scroller.scrollLeft = currentScroll;
+        updateButtons();
 
         if (Math.abs(targetScroll - currentScroll) > 0.5) {
           requestAnimationFrame(animate);
         } else {
           animating = false;
+          updateButtons();
         }
       }
+
+      // Initial button state
+      updateButtons();
     });
   }
 
