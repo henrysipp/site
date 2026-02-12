@@ -10,7 +10,7 @@ const { company, title, href, class: className } = Astro.props;
 ---
 
 <div class:list={['flex shrink-0 items-center gap-4', className]}>
-  <span class="flex h-8 w-12 items-center justify-start [&_svg]:h-full [&_svg]:w-auto">
+  <span class="flex h-8 items-center justify-start [&_svg]:h-full [&_svg]:w-auto">
     <slot />
   </span>
   <div class="flex flex-col whitespace-nowrap">
