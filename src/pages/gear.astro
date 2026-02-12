@@ -4,6 +4,7 @@ import SidebarLayout from '../layouts/SidebarLayout.astro';
 import Heading from '../components/Heading.astro';
 import Subheading from '../components/Subheading.astro';
 import HorizontalScroller from '../components/HorizontalScroller.astro';
+import GearEntry from '../components/GearEntry.astro';
 
 const allGear = await getCollection('gear');
 
@@ -23,21 +24,40 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 	<Heading>Gear</Heading>
 	<Subheading class="mt-2">Things I use and like</Subheading>
 
-	<div class="mt-12 space-y-12">
+	<div class="mt-8 md:mt-12 space-y-12">
 		<!-- Recently Added Section -->
 		{recentGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-secondary">Recently Added</h2>
-				<HorizontalScroller>
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-xl font-semibold text-secondary">Recently Added</h2>
+					<div class="flex gap-2">
+						<button 
+							data-scroll-left-for="recent"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll left"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+							</svg>
+						</button>
+						<button 
+							data-scroll-right-for="recent"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll right"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<HorizontalScroller id="recent">
 					{recentGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-							<div class="rounded-lg overflow-hidden">
-								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-								<div class="py-2">
-									<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-								</div>
-							</div>
-						</a>
+						<GearEntry 
+							title={item.data.title}
+							href={`/gear/${item.id}`}
+							image={item.data.image}
+						/>
 					))}
 				</HorizontalScroller>
 			</section>
@@ -46,17 +66,36 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 		<!-- Home Section -->
 		{homeGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-secondary">Home</h2>
-				<HorizontalScroller>
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-xl font-semibold text-secondary">Home</h2>
+					<div class="flex gap-2">
+						<button 
+							data-scroll-left-for="home"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll left"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+							</svg>
+						</button>
+						<button 
+							data-scroll-right-for="home"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll right"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<HorizontalScroller id="home">
 					{homeGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-							<div class="rounded-lg overflow-hidden">
-								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-								<div class="py-2">
-									<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-								</div>
-							</div>
-						</a>
+						<GearEntry 
+							title={item.data.title}
+							href={`/gear/${item.id}`}
+							image={item.data.image}
+						/>
 					))}
 				</HorizontalScroller>
 			</section>
@@ -65,17 +104,36 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 		<!-- Software Section -->
 		{softwareGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-secondary">Software</h2>
-				<HorizontalScroller>
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-xl font-semibold text-secondary">Software</h2>
+					<div class="flex gap-2">
+						<button 
+							data-scroll-left-for="software"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll left"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+							</svg>
+						</button>
+						<button 
+							data-scroll-right-for="software"
+							class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+							aria-label="Scroll right"
+						>
+							<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<HorizontalScroller id="software">
 					{softwareGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-							<div class="rounded-lg overflow-hidden">
-								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-								<div class="py-2">
-									<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-								</div>
-							</div>
-						</a>
+						<GearEntry 
+							title={item.data.title}
+							href={`/gear/${item.id}`}
+							image={item.data.image}
+						/>
 					))}
 				</HorizontalScroller>
 			</section>
@@ -83,51 +141,108 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 
 		<!-- Workspace Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-secondary">Workspace</h2>
-			<HorizontalScroller>
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-xl font-semibold text-secondary">Workspace</h2>
+				<div class="flex gap-2">
+					<button 
+						data-scroll-left-for="workspace"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll left"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<button 
+						data-scroll-right-for="workspace"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll right"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+						</svg>
+					</button>
+				</div>
+			</div>
+			<HorizontalScroller id="workspace">
 				{workspaceGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-						<div class="rounded-lg overflow-hidden">
-							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-							<div class="py-2">
-								<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-							</div>
-						</div>
-					</a>
+					<GearEntry 
+						title={item.data.title}
+						href={`/gear/${item.id}`}
+						image={item.data.image}
+					/>
 				))}
 			</HorizontalScroller>
 		</section>
 
 		<!-- Daily Carry Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-secondary">Daily Carry</h2>
-			<HorizontalScroller>
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-xl font-semibold text-secondary">Daily Carry</h2>
+				<div class="flex gap-2">
+					<button 
+						data-scroll-left-for="daily"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll left"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<button 
+						data-scroll-right-for="daily"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll right"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+						</svg>
+					</button>
+				</div>
+			</div>
+			<HorizontalScroller id="daily">
 				{dailyCarryGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-						<div class="rounded-lg overflow-hidden">
-							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-							<div class="py-2">
-								<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-							</div>
-						</div>
-					</a>
+					<GearEntry 
+						title={item.data.title}
+						href={`/gear/${item.id}`}
+						image={item.data.image}
+					/>
 				))}
 			</HorizontalScroller>
 		</section>
 
 		<!-- Tech Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-secondary">Tech</h2>
-			<HorizontalScroller>
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-xl font-semibold text-secondary">Tech</h2>
+				<div class="flex gap-2">
+					<button 
+						data-scroll-left-for="tech"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll left"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<button 
+						data-scroll-right-for="tech"
+						class="h-8 w-8 flex items-center justify-center hover:opacity-70 transition-all disabled:opacity-0 disabled:pointer-events-none"
+						aria-label="Scroll right"
+					>
+						<svg class="h-6 w-6 text-mist-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+						</svg>
+					</button>
+				</div>
+			</div>
+			<HorizontalScroller id="tech">
 				{techGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
-						<div class="rounded-lg overflow-hidden">
-							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
-							<div class="py-2">
-								<h3 class="font-semibold text-secondary">{item.data.title}</h3>
-							</div>
-						</div>
-					</a>
+					<GearEntry 
+						title={item.data.title}
+						href={`/gear/${item.id}`}
+						image={item.data.image}
+					/>
 				))}
 			</HorizontalScroller>
 		</section>
