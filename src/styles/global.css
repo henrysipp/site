@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --text-primary: theme('colors.mist.900');
+    --text-secondary: theme('colors.mist.700');
+    --text-tertiary: theme('colors.mist.600');
+  }
+
+  .dark {
+    --text-primary: theme('colors.mist.200');
+    --text-secondary: theme('colors.mist.300');
+    --text-tertiary: theme('colors.mist.400');
+  }
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;

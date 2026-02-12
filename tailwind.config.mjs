@@ -24,6 +24,11 @@ export default {
 					950: 'oklch(14.8% 0.004 228.8)',
 				},
 			},
+			textColor: {
+				primary: 'var(--text-primary)',
+				secondary: 'var(--text-secondary)',
+				tertiary: 'var(--text-tertiary)',
+			},
 			typography: ({ theme }) => ({
 				mist: {
 					css: {

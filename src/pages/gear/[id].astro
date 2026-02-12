@@ -28,7 +28,7 @@ const { Content } = await render(item);
 	</div>
 
 	<div class="mt-8 prose dark:prose-invert max-w-none">
-		<Text class="text-lg text-gray-700 dark:text-gray-300">{item.data.description}</Text>
+		<Text class="text-lg text-secondary">{item.data.description}</Text>
 		
 		<div class="mt-6">
 			<Content />
@@ -52,7 +52,7 @@ const { Content } = await render(item);
 
 		<div class="mt-8 flex gap-2">
 			{item.data.tags.map(tag => (
-				<span class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full">
+				<span class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 text-secondary rounded-full">
 					{tag}
 				</span>
 			))}

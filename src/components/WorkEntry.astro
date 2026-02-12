@@ -15,10 +15,10 @@ const { company, title, href, class: className } = Astro.props;
   </span>
   <div class="flex flex-col whitespace-nowrap">
     {href ? (
-      <a href={href} target="_blank" rel="noopener noreferrer" class="font-medium text-mist-900 dark:text-white hover:underline">{company}</a>
+      <a href={href} target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:underline">{company}</a>
     ) : (
-      <span class="font-medium text-mist-900 dark:text-white">{company}</span>
+      <span class="font-medium text-primary">{company}</span>
     )}
-    <span class="text-sm text-mist-600 dark:text-mist-400">{title}</span>
+    <span class="text-sm text-tertiary">{title}</span>
   </div>
 </div>
