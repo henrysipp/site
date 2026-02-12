@@ -1,39 +1,135 @@
 ---
+import { getCollection } from 'astro:content';
 import SidebarLayout from '../layouts/SidebarLayout.astro';
 import Heading from '../components/Heading.astro';
-import Text from '../components/Text.astro';
-import Subheading from '../components/Subheading.astro'
+import Subheading from '../components/Subheading.astro';
+import HorizontalScroller from '../components/HorizontalScroller.astro';
+
+const allGear = await getCollection('gear');
+
+const recentGear = [...allGear]
+	.filter(item => item.data.addedDate)
+	.sort((a, b) => (b.data.addedDate?.getTime() || 0) - (a.data.addedDate?.getTime() || 0))
+	.slice(0, 6);
+
+const workspaceGear = allGear.filter(item => item.data.tags.includes('workspace'));
+const dailyCarryGear = allGear.filter(item => item.data.tags.includes('daily carry'));
+const techGear = allGear.filter(item => item.data.tags.includes('tech'));
+const homeGear = allGear.filter(item => item.data.tags.includes('home'));
+const softwareGear = allGear.filter(item => item.data.tags.includes('software'));
 ---
 
 <SidebarLayout title="Gear" description="The tools and equipment I use">
 	<Heading>Gear</Heading>
 	<Subheading class="mt-2">Things I use and like</Subheading>
-	<div class="mt-8 space-y-8">
+
+	<div class="mt-12 space-y-12">
+		<!-- Recently Added Section -->
+		{recentGear.length > 0 && (
+			<section>
+				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Recently Added</h2>
+				<HorizontalScroller>
+					{recentGear.map((item) => (
+						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+								<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+								<div class="p-4">
+									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								</div>
+							</div>
+						</a>
+					))}
+				</HorizontalScroller>
+			</section>
+		)}
+
+		<!-- Home Section -->
+		{homeGear.length > 0 && (
+			<section>
+				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Home</h2>
+				<HorizontalScroller>
+					{homeGear.map((item) => (
+						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+								<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+								<div class="p-4">
+									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								</div>
+							</div>
+						</a>
+					))}
+				</HorizontalScroller>
+			</section>
+		)}
+
+		<!-- Software Section -->
+		{softwareGear.length > 0 && (
+			<section>
+				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Software</h2>
+				<HorizontalScroller>
+					{softwareGear.map((item) => (
+						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+								<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+								<div class="p-4">
+									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								</div>
+							</div>
+						</a>
+					))}
+				</HorizontalScroller>
+			</section>
+		)}
+
+		<!-- Workspace Section -->
 		<section>
-			<Text emphasized class="mb-4">Computer</Text>
-			<ul class="space-y-2">
-				<Text size="sm" class="list-item">Framework Laptop 16</Text>
-				<Text size="sm" class="list-item">32GB RAM</Text>
-				<Text size="sm" class="list-item">1TB SSD</Text>
-			</ul>
+			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Workspace</h2>
+			<HorizontalScroller>
+				{workspaceGear.map((item) => (
+					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+							<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+							<div class="p-4">
+								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+							</div>
+						</div>
+					</a>
+				))}
+			</HorizontalScroller>
 		</section>
 
+		<!-- Daily Carry Section -->
 		<section>
-			<Text emphasized class="mb-4">Peripherals</Text>
-			<ul class="space-y-2">
-				<Text size="sm" class="list-item">Mechanical Keyboard</Text>
-				<Text size="sm" class="list-item">Logitech MX Master 3</Text>
-				<Text size="sm" class="list-item">27" 4K Monitor</Text>
-			</ul>
+			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Daily Carry</h2>
+			<HorizontalScroller>
+				{dailyCarryGear.map((item) => (
+					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+							<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+							<div class="p-4">
+								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+							</div>
+						</div>
+					</a>
+				))}
+			</HorizontalScroller>
 		</section>
 
+		<!-- Tech Section -->
 		<section>
-			<Text emphasized class="mb-4">Software</Text>
-			<ul class="space-y-2">
-				<Text size="sm" class="list-item">VS Code</Text>
-				<Text size="sm" class="list-item">Firefox</Text>
-				<Text size="sm" class="list-item">Obsidian</Text>
-			</ul>
+			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Tech</h2>
+			<HorizontalScroller>
+				{techGear.map((item) => (
+					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
+							<img src={item.data.image} alt={item.data.title} class="aspect-video object-cover w-full" />
+							<div class="p-4">
+								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+							</div>
+						</div>
+					</a>
+				))}
+			</HorizontalScroller>
 		</section>
 	</div>
 </SidebarLayout>

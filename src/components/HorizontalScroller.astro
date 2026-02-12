@@ -7,40 +7,70 @@ const { class: className } = Astro.props;
 ---
 
 <div class:list={['relative -px-6 md:-mx-12', className]} data-horizontal-scroller>
-  <div class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white dark:from-mist-950 to-transparent"></div>
-  <div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white dark:from-mist-950 to-transparent"></div>
+  <!-- <div class="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white dark:from-mist-950 to-transparent"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white dark:from-mist-950 to-transparent"></div> -->
   <div class="flex gap-8 overflow-x-auto md:px-12 scrollbar-hide" data-scroller-inner>
     <slot />
   </div>
 </div>
 
 <script>
-  const scroller = document.querySelector('[data-scroller-inner]') as HTMLElement;
-  if (scroller) {
-    let targetScroll = scroller.scrollLeft;
-    let currentScroll = scroller.scrollLeft;
-    let animating = false;
+  function initScrollers() {
+    const scrollers = document.querySelectorAll('[data-scroller-inner]');
+    
+    scrollers.forEach((scroller) => {
+      if (!(scroller instanceof HTMLElement)) return;
+      
+      // Skip if already initialized
+      if (scroller.dataset.scrollerInit === 'true') return;
+      scroller.dataset.scrollerInit = 'true';
+      
+      let targetScroll = scroller.scrollLeft;
+      let currentScroll = scroller.scrollLeft;
+      let animating = false;
+      let isHovering = false;
 
-    scroller.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      targetScroll += e.deltaX || e.deltaY;
-      targetScroll = Math.max(0, Math.min(targetScroll, scroller.scrollWidth - scroller.clientWidth));
+      scroller.addEventListener('mouseenter', () => {
+        isHovering = true;
+      });
 
-      if (!animating) {
-        animating = true;
-        animate();
+      scroller.addEventListener('mouseleave', () => {
+        isHovering = false;
+      });
+
+      scroller.addEventListener('wheel', (e) => {
+        // Only handle actual horizontal scroll (shift+scroll or trackpad horizontal swipe)
+        const hasOverflow = scroller.scrollWidth > scroller.clientWidth;
+        const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+        
+        if (!isHovering || !hasOverflow || !isHorizontalScroll) return;
+
+        e.preventDefault();
+        targetScroll += e.deltaX;
+        targetScroll = Math.max(0, Math.min(targetScroll, scroller.scrollWidth - scroller.clientWidth));
+
+        if (!animating) {
+          animating = true;
+          animate();
+        }
+      }, { passive: false });
+
+      function animate() {
+        currentScroll += (targetScroll - currentScroll) * 0.1;
+        scroller.scrollLeft = currentScroll;
+
+        if (Math.abs(targetScroll - currentScroll) > 0.5) {
+          requestAnimationFrame(animate);
+        } else {
+          animating = false;
+        }
       }
-    }, { passive: false });
-
-    function animate() {
-      currentScroll += (targetScroll - currentScroll) * 0.1;
-      scroller.scrollLeft = currentScroll;
-
-      if (Math.abs(targetScroll - currentScroll) > 0.5) {
-        requestAnimationFrame(animate);
-      } else {
-        animating = false;
-      }
-    }
+    });
   }
+
+  // Initialize on first load
+  initScrollers();
+
+  // Re-initialize after Astro view transitions
+  document.addEventListener('astro:page-load', initScrollers);
 </script>
