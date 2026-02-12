@@ -30,7 +30,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Recently Added</h2>
 				<HorizontalScroller>
 					{recentGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 								<div class="p-4">
@@ -49,7 +49,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Home</h2>
 				<HorizontalScroller>
 					{homeGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 								<div class="p-4">
@@ -68,7 +68,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Software</h2>
 				<HorizontalScroller>
 					{softwareGear.map((item) => (
-						<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+						<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 							<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 								<div class="p-4">
@@ -86,7 +86,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Workspace</h2>
 			<HorizontalScroller>
 				{workspaceGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+					<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 							<div class="p-4">
@@ -103,7 +103,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Daily Carry</h2>
 			<HorizontalScroller>
 				{dailyCarryGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+					<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 							<div class="p-4">
@@ -120,7 +120,7 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Tech</h2>
 			<HorizontalScroller>
 				{techGear.map((item) => (
-					<a href={`/gear/${item.id}`} class="flex-none w-80 snap-start group">
+					<a href={`/gear/${item.id}`} class="flex-none w-64 snap-start group">
 						<div class="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full" />
 							<div class="p-4">
