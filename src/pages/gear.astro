@@ -27,14 +27,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 		<!-- Recently Added Section -->
 		{recentGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Recently Added</h2>
+				<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Recently Added</h2>
 				<HorizontalScroller>
 					{recentGear.map((item) => (
 						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 							<div class="rounded-lg overflow-hidden">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 								<div class="py-2">
-									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+									<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 								</div>
 							</div>
 						</a>
@@ -46,14 +46,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 		<!-- Home Section -->
 		{homeGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Home</h2>
+				<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Home</h2>
 				<HorizontalScroller>
 					{homeGear.map((item) => (
 						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 							<div class="rounded-lg overflow-hidden">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 								<div class="py-2">
-									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+									<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 								</div>
 							</div>
 						</a>
@@ -65,14 +65,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 		<!-- Software Section -->
 		{softwareGear.length > 0 && (
 			<section>
-				<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Software</h2>
+				<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Software</h2>
 				<HorizontalScroller>
 					{softwareGear.map((item) => (
 						<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 							<div class="rounded-lg overflow-hidden">
 								<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 								<div class="py-2">
-									<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+									<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 								</div>
 							</div>
 						</a>
@@ -83,14 +83,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 
 		<!-- Workspace Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Workspace</h2>
+			<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Workspace</h2>
 			<HorizontalScroller>
 				{workspaceGear.map((item) => (
 					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 						<div class="rounded-lg overflow-hidden">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 							<div class="py-2">
-								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 							</div>
 						</div>
 					</a>
@@ -100,14 +100,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 
 		<!-- Daily Carry Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Daily Carry</h2>
+			<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Daily Carry</h2>
 			<HorizontalScroller>
 				{dailyCarryGear.map((item) => (
 					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 						<div class="rounded-lg overflow-hidden">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 							<div class="py-2">
-								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 							</div>
 						</div>
 					</a>
@@ -117,14 +117,14 @@ const softwareGear = allGear.filter(item => item.data.tags.includes('software'))
 
 		<!-- Tech Section -->
 		<section>
-			<h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Tech</h2>
+			<h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Tech</h2>
 			<HorizontalScroller>
 				{techGear.map((item) => (
 					<a href={`/gear/${item.id}`} class="flex-none w-48 snap-start group">
 						<div class="rounded-lg overflow-hidden">
 							<img src={item.data.image} alt={item.data.title} class="aspect-square object-cover w-full rounded-lg" />
 							<div class="py-2">
-								<h3 class="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
+								<h3 class="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.data.title}</h3>
 							</div>
 						</div>
 					</a>
