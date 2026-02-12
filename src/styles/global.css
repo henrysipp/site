@@ -7,14 +7,14 @@
 @layer base {
   :root {
     --text-primary: theme('colors.mist.900');
-    --text-secondary: theme('colors.mist.700');
-    --text-tertiary: theme('colors.mist.600');
+    --text-secondary: theme('colors.mist.600');
+    --text-tertiary: theme('colors.mist.500');
   }
 
   .dark {
     --text-primary: theme('colors.mist.200');
-    --text-secondary: theme('colors.mist.300');
-    --text-tertiary: theme('colors.mist.400');
+    --text-secondary: theme('colors.mist.400');
+    --text-tertiary: theme('colors.mist.500');
   }
 }
 
