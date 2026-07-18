@@ -1,0 +1,73 @@
+---
+import type { RichTextContent } from '../lib/notion/types';
+
+interface Props {
+	content: RichTextContent[];
+}
+
+const { content } = Astro.props;
+
+function truncateUrl(url: string, maxLength = 50): string {
+	const displayUrl = url.replace(/^https?:\/\//, '');
+	if (displayUrl.length <= maxLength) return displayUrl;
+	const start = Math.floor((maxLength - 3) / 2);
+	const end = Math.ceil((maxLength - 3) / 2);
+	return `${displayUrl.slice(0, start)}...${displayUrl.slice(-end)}`;
+}
+
+function isUrl(value: string): boolean {
+	return /^https?:\/\/[^\s]+$/.test(value);
+}
+
+function splitUrls(text: string): Array<{ text: string; href?: string }> {
+	const parts = text.split(/(https?:\/\/[^\s]+)/g).filter(Boolean);
+	return parts.map((part) =>
+		isUrl(part) ? { text: truncateUrl(part), href: part } : { text: part },
+	);
+}
+---
+
+{
+	content.map((item) => {
+		const { content: text, link } = item.text;
+		const { bold, italic, strikethrough, underline, code } = item.annotations;
+		const segments = link
+			? [
+					{
+						text: isUrl(text) ? truncateUrl(text) : text,
+						href: link,
+					},
+				]
+			: splitUrls(text);
+
+		return segments.map((segment) => {
+			const body = code ? (
+				<code class="rounded bg-neutral-100 px-1 py-0.5 text-sm dark:bg-neutral-800">
+					{segment.text}
+				</code>
+			) : (
+				segment.text
+			);
+
+			let node = segment.href ? (
+				<a
+					href={segment.href}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="break-all underline underline-offset-2"
+					title={segment.href}
+				>
+					{body}
+				</a>
+			) : (
+				body
+			);
+
+			if (bold) node = <strong>{node}</strong>;
+			if (italic) node = <em>{node}</em>;
+			if (strikethrough) node = <s>{node}</s>;
+			if (underline) node = <u>{node}</u>;
+			return node;
+		});
+	})
+}

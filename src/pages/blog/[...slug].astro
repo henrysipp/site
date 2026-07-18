@@ -1,20 +1,65 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+export const prerender = false;
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+import GlassButton from '../../components/GlassButton.astro';
+import GlassLinkButton from '../../components/GlassLinkButton.astro';
+import ArrowsPointingOutIcon from '../../components/icons/ArrowsPointingOutIcon.astro';
+import XMarkIcon from '../../components/icons/XMarkIcon.astro';
+import NotionBlocks from '../../components/NotionBlocks.astro';
+import PageDetails from '../../components/PageDetails.astro';
+import Text from '../../components/Text.astro';
+import NestedSectionLayout from '../../layouts/NestedSectionLayout.astro';
+import { getBlogPostBySlug, getBlogPosts } from '../../lib/notion';
+
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam)
+	? slugParam.join('/')
+	: (slugParam ?? '');
+
+const post = slug ? await getBlogPostBySlug(slug) : null;
+if (!post) {
+	return Astro.redirect('/blog');
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
-const { Content } = await render(post);
+const posts = await getBlogPosts();
+const items = posts.map((entry) => ({
+	href: `/blog/${entry.slug}`,
+	label: entry.title,
+	date: entry.pubDate?.toISOString(),
+}));
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<NestedSectionLayout
+	title={post.title}
+	description={post.excerpt ?? post.title}
+	sectionLabel="Blog"
+	items={items}
+>
+	<article>
+		<div class="flex items-start justify-between gap-6">
+			<Text variant="headline1" as="h1" class="min-w-0 text-primary">
+				{post.title}
+			</Text>
+			<div class="flex shrink-0 items-center gap-2">
+				<GlassButton ariaLabel="Enter focus mode">
+					<ArrowsPointingOutIcon class="size-4" />
+				</GlassButton>
+				<GlassLinkButton
+					href="/blog"
+					ariaLabel="Close post"
+					iconClass="[&>svg]:size-4"
+				>
+					<XMarkIcon slot="icon" />
+				</GlassLinkButton>
+			</div>
+		</div>
+		<PageDetails
+			pubDate={post.pubDate}
+			lastEdited={post.lastEdited}
+			tags={post.tags}
+		/>
+		<div class="notion-blocks">
+			<NotionBlocks blocks={post.blocks} />
+		</div>
+	</article>
+</NestedSectionLayout>

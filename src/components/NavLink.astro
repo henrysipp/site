@@ -1,21 +1,29 @@
 ---
+import Text from './Text.astro';
+
 interface Props {
 	href: string;
 }
 
 const { href } = Astro.props;
-const currentPath = Astro.url.pathname;
-const isActive = currentPath === href;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const targetPath = href.replace(/\/$/, '') || '/';
+const isActive =
+	targetPath === '/'
+		? currentPath === '/'
+		: currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
 ---
 
 <a
 	href={href}
 	class:list={[
-		'block text-base transition-colors',
+		'block transition-colors',
 		isActive
-			? 'font-semibold text-primary'
-			: 'text-tertiary hover:text-mist-900 dark:hover:text-white',
+			? 'text-primary'
+			: 'text-tertiary hover:text-neutral-900 dark:hover:text-white',
 	]}
 >
-	<slot />
+	<Text variant={isActive ? 'body1Emphasized' : 'body1'} as="span">
+		<slot />
+	</Text>
 </a>

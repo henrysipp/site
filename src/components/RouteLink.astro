@@ -1,0 +1,30 @@
+---
+import ArrowUpRightIcon from './icons/ArrowUpRightIcon.astro';
+
+interface Props {
+	href: string;
+}
+
+const { href } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const targetPath = href.replace(/\/$/, '') || '/';
+const isActive = currentPath === targetPath;
+---
+
+<a
+	href={href}
+	class:list={[
+		'group inline-flex items-center gap-1.5 font-sans text-base leading-tight transition-colors',
+		isActive
+			? 'font-semibold text-primary'
+			: 'font-normal text-tertiary hover:text-neutral-900 dark:hover:text-white',
+	]}
+>
+	<span><slot /></span>
+	<ArrowUpRightIcon
+		class:list={[
+			'size-4 shrink-0 transition-opacity',
+			isActive ? 'opacity-70' : 'opacity-40 group-hover:opacity-70',
+		]}
+	/>
+</a>

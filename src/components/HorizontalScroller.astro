@@ -8,113 +8,64 @@ const { class: className, id } = Astro.props;
 ---
 
 <div class:list={['relative -mx-6 md:-mx-12', className]} data-horizontal-scroller data-scroller-id={id}>
-  <div class="flex gap-8 overflow-x-auto px-6 md:px-12 scrollbar-hide" data-scroller-inner>
-    <slot />
-  </div>
+	<div class="overflow-x-auto scrollbar-hide" data-scroller-inner data-lenis-prevent>
+		<div class="flex w-max min-w-full gap-8 px-6 md:px-12" data-scroller-content>
+			<slot />
+		</div>
+	</div>
 </div>
 
 <script>
-  function initScrollers() {
-    const scrollerContainers = document.querySelectorAll('[data-horizontal-scroller]');
-    
-    scrollerContainers.forEach((container) => {
-      if (!(container instanceof HTMLElement)) return;
-      
-      const scroller = container.querySelector('[data-scroller-inner]');
-      if (!scroller || !(scroller instanceof HTMLElement)) return;
-      
-      // Skip if already initialized
-      if (scroller.dataset.scrollerInit === 'true') return;
-      scroller.dataset.scrollerInit = 'true';
-      
-      const scrollerId = container.dataset.scrollerId;
-      const leftBtn = scrollerId ? document.querySelector(`[data-scroll-left-for="${scrollerId}"]`) : null;
-      const rightBtn = scrollerId ? document.querySelector(`[data-scroll-right-for="${scrollerId}"]`) : null;
-      
-      let targetScroll = scroller.scrollLeft;
-      let currentScroll = scroller.scrollLeft;
-      let animating = false;
-      let isHovering = false;
+	import Lenis from 'lenis';
 
-      // Update button states
-      function updateButtons() {
-        if (leftBtn instanceof HTMLButtonElement) {
-          leftBtn.disabled = scroller.scrollLeft <= 0;
-        }
-        if (rightBtn instanceof HTMLButtonElement) {
-          rightBtn.disabled = scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 1;
-        }
-      }
+	let scrollerInstances: Lenis[] = [];
 
-      // Button click handlers
-      if (leftBtn) {
-        leftBtn.addEventListener('click', () => {
-          targetScroll = Math.max(0, scroller.scrollLeft - 400);
-          if (!animating) {
-            animating = true;
-            animate();
-          }
-        });
-      }
+	function initScrollers() {
+		scrollerInstances.forEach((instance) => instance.destroy());
+		scrollerInstances = [];
 
-      if (rightBtn) {
-        rightBtn.addEventListener('click', () => {
-          targetScroll = Math.min(scroller.scrollWidth - scroller.clientWidth, scroller.scrollLeft + 400);
-          if (!animating) {
-            animating = true;
-            animate();
-          }
-        });
-      }
+		document.querySelectorAll<HTMLElement>('[data-horizontal-scroller]').forEach((container) => {
+			const wrapper = container.querySelector<HTMLElement>('[data-scroller-inner]');
+			const content = container.querySelector<HTMLElement>('[data-scroller-content]');
+			if (!wrapper || !content) return;
 
-      scroller.addEventListener('mouseenter', () => {
-        isHovering = true;
-      });
+			const lenis = new Lenis({
+				wrapper,
+				content,
+				autoRaf: true,
+				duration: 0.8,
+				easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+				orientation: 'horizontal',
+				gestureOrientation: 'both',
+				smoothWheel: true,
+			});
+			scrollerInstances.push(lenis);
 
-      scroller.addEventListener('mouseleave', () => {
-        isHovering = false;
-      });
+			const scrollerId = container.dataset.scrollerId;
+			const leftButton = scrollerId
+				? document.querySelector<HTMLButtonElement>(`[data-scroll-left-for="${scrollerId}"]`)
+				: null;
+			const rightButton = scrollerId
+				? document.querySelector<HTMLButtonElement>(`[data-scroll-right-for="${scrollerId}"]`)
+				: null;
 
-      scroller.addEventListener('wheel', (e) => {
-        // Only handle actual horizontal scroll (shift+scroll or trackpad horizontal swipe)
-        const hasOverflow = scroller.scrollWidth > scroller.clientWidth;
-        const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-        
-        if (!isHovering || !hasOverflow || !isHorizontalScroll) return;
+			function updateButtons() {
+				if (leftButton) leftButton.disabled = lenis.scroll <= 0;
+				if (rightButton) rightButton.disabled = lenis.scroll >= lenis.limit - 1;
+			}
 
-        e.preventDefault();
-        targetScroll += e.deltaX;
-        targetScroll = Math.max(0, Math.min(targetScroll, scroller.scrollWidth - scroller.clientWidth));
+			leftButton?.addEventListener('click', () => {
+				lenis.scrollTo(Math.max(0, lenis.scroll - 400));
+			});
+			rightButton?.addEventListener('click', () => {
+				lenis.scrollTo(Math.min(lenis.limit, lenis.scroll + 400));
+			});
 
-        if (!animating) {
-          animating = true;
-          animate();
-        }
-      }, { passive: false });
+			lenis.on('scroll', updateButtons);
+			updateButtons();
+		});
+	}
 
-      scroller.addEventListener('scroll', updateButtons);
-
-      function animate() {
-        currentScroll += (targetScroll - currentScroll) * 0.1;
-        scroller.scrollLeft = currentScroll;
-        updateButtons();
-
-        if (Math.abs(targetScroll - currentScroll) > 0.5) {
-          requestAnimationFrame(animate);
-        } else {
-          animating = false;
-          updateButtons();
-        }
-      }
-
-      // Initial button state
-      updateButtons();
-    });
-  }
-
-  // Initialize on first load
-  initScrollers();
-
-  // Re-initialize after Astro view transitions
-  document.addEventListener('astro:page-load', initScrollers);
+	initScrollers();
+	document.addEventListener('astro:page-load', initScrollers);
 </script>

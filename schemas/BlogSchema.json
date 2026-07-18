@@ -1,0 +1,128 @@
+{
+  "props": {
+    "Featured": {
+      "id": "%3Bc%40r",
+      "name": "Featured",
+      "description": null,
+      "type": "checkbox",
+      "checkbox": {}
+    },
+    "Slug": {
+      "id": "%3DIrb",
+      "name": "Slug",
+      "description": null,
+      "type": "rich_text",
+      "rich_text": {}
+    },
+    "Status": {
+      "id": "%3Fl~%5D",
+      "name": "Status",
+      "description": null,
+      "type": "status",
+      "status": {
+        "options": [
+          {
+            "id": "HNVJ",
+            "name": "Draft",
+            "color": "gray",
+            "description": null
+          },
+          {
+            "id": "EB]v",
+            "name": "In review",
+            "color": "yellow",
+            "description": null
+          },
+          {
+            "id": "v`W]",
+            "name": "Published",
+            "color": "green",
+            "description": null
+          }
+        ],
+        "groups": [
+          {
+            "id": "_H`V",
+            "name": "To-do",
+            "color": "default",
+            "option_ids": [
+              "HNVJ"
+            ]
+          },
+          {
+            "id": "lXg?",
+            "name": "In progress",
+            "color": "default",
+            "option_ids": [
+              "EB]v"
+            ]
+          },
+          {
+            "id": "s>Ah",
+            "name": "Complete",
+            "color": "default",
+            "option_ids": [
+              "v`W]"
+            ]
+          }
+        ]
+      }
+    },
+    "Tags": {
+      "id": "B%3B_b",
+      "name": "Tags",
+      "description": null,
+      "type": "multi_select",
+      "multi_select": {
+        "options": [
+          {
+            "id": "IPGA",
+            "name": "Tech",
+            "color": "blue",
+            "description": null
+          },
+          {
+            "id": "XRsQ",
+            "name": "Personal",
+            "color": "purple",
+            "description": null
+          },
+          {
+            "id": "f<}L",
+            "name": "Writing",
+            "color": "orange",
+            "description": null
+          }
+        ]
+      }
+    },
+    "Created": {
+      "id": "SLN%5E",
+      "name": "Created",
+      "description": null,
+      "type": "created_time",
+      "created_time": {}
+    },
+    "Last edited": {
+      "id": "XM~p",
+      "name": "Last edited",
+      "description": null,
+      "type": "last_edited_time",
+      "last_edited_time": {}
+    },
+    "Publish date": {
+      "id": "YV%5DE",
+      "name": "Publish date",
+      "description": null,
+      "type": "date",
+      "date": {}
+    },
+    "Title": {
+      "id": "title",
+      "name": "Title",
+      "description": null,
+      "type": "title",
+      "title": {}
+    }
+  }
+}

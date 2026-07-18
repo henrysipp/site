@@ -1,0 +1,23 @@
+---
+import MobileNav from './MobileNav.astro';
+import Text from './Text.astro';
+import { SITE_TITLE } from '../consts.ts';
+import { primaryNav, type NavItem } from '../lib/nav';
+
+interface Props {
+	items?: NavItem[];
+}
+
+const items = Astro.props.items ?? primaryNav;
+---
+
+<header
+	class="fixed top-0 inset-x-0 z-40 h-[var(--top-bar-height)] bg-body border-b border-neutral-200 dark:border-neutral-700 px-6 flex items-center justify-between"
+	transition:name="top-bar"
+	transition:animate="none"
+>
+	<a href="/" class="text-primary hover:text-neutral-700 dark:hover:text-neutral-300">
+		<Text variant="titleEmphasized" as="span">{SITE_TITLE}</Text>
+	</a>
+	<MobileNav items={items} />
+</header>

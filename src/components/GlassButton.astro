@@ -1,0 +1,29 @@
+---
+interface Props {
+	ariaLabel: string;
+	class?: string;
+	disabled?: boolean;
+	type?: 'button' | 'reset' | 'submit';
+}
+
+const {
+	ariaLabel,
+	class: className,
+	disabled = false,
+	type = 'button',
+} = Astro.props;
+---
+
+<button
+	type={type}
+	aria-label={ariaLabel}
+	disabled={disabled}
+	class:list={[
+		'group/glassButton glass-bg glass-shadow relative inline-flex grow-0 items-center justify-center overflow-hidden rounded-full bg-clip-padding p-1.5 text-neutral-900 opacity-100 transition-all duration-100 hover:bg-neutral-500/10 active:scale-95 disabled:pointer-events-none disabled:opacity-50 dark:text-white',
+		className,
+	]}
+>
+	<span class="opacity-75 group-hover/glassButton:opacity-100">
+		<slot />
+	</span>
+</button>

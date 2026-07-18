@@ -1,42 +1,20 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Heading from '../../components/Heading.astro';
-import Text from '../../components/Text.astro';
-import SidebarLayout from '../../layouts/SidebarLayout.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+export const prerender = false;
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+import NestedSectionLayout from '../../layouts/NestedSectionLayout.astro';
+import { getBlogPosts } from '../../lib/notion';
+
+const posts = await getBlogPosts();
+const items = posts.map((post) => ({
+	href: `/blog/${post.slug}`,
+	label: post.title,
+	date: post.pubDate?.toISOString(),
+}));
 ---
 
-<SidebarLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<Heading class="mb-8">Blog</Heading>
-	<ul class="grid gap-6 sm:grid-cols-2">
-		{
-			posts.map((post, index) => (
-				<li class:list={[index === 0 && 'sm:col-span-2']}>
-					<a href={`/blog/${post.id}/`} class="group block">
-						{post.data.heroImage && (
-							<Image
-								width={720}
-								height={360}
-								src={post.data.heroImage}
-								alt=""
-								class="mb-3 rounded-xl transition-shadow group-hover:shadow-lg"
-							/>
-						)}
-						<Text emphasized class:list={['group-hover:text-blue-600', index === 0 ? 'text-2xl' : 'text-lg']}>
-							{post.data.title}
-						</Text>
-						<Text size="sm" class="mt-1">
-							<FormattedDate date={post.data.pubDate} />
-						</Text>
-					</a>
-				</li>
-			))
-		}
-	</ul>
-</SidebarLayout>
+<NestedSectionLayout
+	title="Blog"
+	description="Writing and notes"
+	sectionLabel="Blog"
+	items={items}
+/>

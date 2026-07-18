@@ -1,0 +1,126 @@
+{
+  "props": {
+    "Tags": {
+      "id": "%3E%3D%3FZ",
+      "name": "Tags",
+      "description": null,
+      "type": "multi_select",
+      "multi_select": {
+        "options": [
+          {
+            "id": "gQCI",
+            "name": "Daily",
+            "color": "green",
+            "description": null
+          },
+          {
+            "id": "\\_Wt",
+            "name": "Work",
+            "color": "blue",
+            "description": null
+          },
+          {
+            "id": "J}wT",
+            "name": "Personal",
+            "color": "pink",
+            "description": null
+          },
+          {
+            "id": "g@LM",
+            "name": "Travel",
+            "color": "orange",
+            "description": null
+          }
+        ]
+      }
+    },
+    "Updated": {
+      "id": "G%7CdI",
+      "name": "Updated",
+      "description": null,
+      "type": "last_edited_time",
+      "last_edited_time": {}
+    },
+    "Image": {
+      "id": "QPZ%5D",
+      "name": "Image",
+      "description": null,
+      "type": "files",
+      "files": {}
+    },
+    "Using since": {
+      "id": "QTEg",
+      "name": "Using since",
+      "description": null,
+      "type": "date",
+      "date": {}
+    },
+    "Notes": {
+      "id": "%5DuIW",
+      "name": "Notes",
+      "description": null,
+      "type": "rich_text",
+      "rich_text": {}
+    },
+    "Link": {
+      "id": "_nB%3E",
+      "name": "Link",
+      "description": null,
+      "type": "url",
+      "url": {}
+    },
+    "Type": {
+      "id": "tKGU",
+      "name": "Type",
+      "description": null,
+      "type": "select",
+      "select": {
+        "options": [
+          {
+            "id": "j|XJ",
+            "name": "Software",
+            "color": "blue",
+            "description": null
+          },
+          {
+            "id": "sHiZ",
+            "name": "Hardware",
+            "color": "green",
+            "description": null
+          },
+          {
+            "id": "lhdd",
+            "name": "Camera",
+            "color": "purple",
+            "description": null
+          },
+          {
+            "id": "sVvj",
+            "name": "Car",
+            "color": "orange",
+            "description": null
+          },
+          {
+            "id": "<x<E",
+            "name": "Service",
+            "color": "pink",
+            "description": null
+          },
+          {
+            "id": "pxEc",
+            "name": "Other",
+            "color": "gray",
+            "description": null
+          }
+        ]
+      }
+    },
+    "Name": {
+      "id": "title",
+      "name": "Name",
+      "description": null,
+      "type": "title",
+      "title": {}
+    }
+  }
+}

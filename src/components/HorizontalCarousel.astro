@@ -1,4 +1,8 @@
 ---
+import Text from './Text.astro';
+import ChevronLeftIcon from './icons/ChevronLeftIcon.astro';
+import ChevronRightIcon from './icons/ChevronRightIcon.astro';
+
 interface Props {
   title: string;
   class?: string;
@@ -9,23 +13,19 @@ const { title, class: className } = Astro.props;
 
 <div class:list={[className]}>
   <div class="flex items-center justify-between mb-4">
-    <h2 class="text-xl font-semibold text-secondary">{title}</h2>
+    <Text variant="titleEmphasized" as="h2" class="text-secondary">{title}</Text>
     <div class="flex gap-2">
       <button 
-        class="scroll-left p-2 rounded-lg hover:bg-mist-100 dark:hover:bg-mist-800 transition-colors"
+        class="scroll-left p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
         aria-label="Scroll left"
       >
-        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
+        <ChevronLeftIcon class="size-4 text-secondary" />
       </button>
       <button 
-        class="scroll-right p-2 rounded-lg hover:bg-mist-100 dark:hover:bg-mist-800 transition-colors"
+        class="scroll-right p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
         aria-label="Scroll right"
       >
-        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
+        <ChevronRightIcon class="size-4 text-secondary" />
       </button>
     </div>
   </div>

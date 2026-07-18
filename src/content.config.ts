@@ -3,13 +3,15 @@ import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
 	loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-	schema: ({ image }) => z.object({
-		title: z.string(),
-		description: z.string(),
-		pubDate: z.coerce.date(),
-		updatedDate: z.coerce.date().optional(),
-		heroImage: image().optional(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			description: z.string(),
+			pubDate: z.coerce.date(),
+			updatedDate: z.coerce.date().optional(),
+			heroImage: image().optional(),
+			tags: z.array(z.string()).optional(),
+		}),
 });
 
 const gear = defineCollection({
@@ -18,7 +20,9 @@ const gear = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		image: z.string(),
-		tags: z.array(z.enum(['workspace', 'daily carry', 'tech', 'home', 'software'])),
+		tags: z.array(
+			z.enum(['workspace', 'daily carry', 'tech', 'home', 'software']),
+		),
 		link: z.string().optional(),
 		addedDate: z.coerce.date().optional(),
 	}),

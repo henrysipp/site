@@ -1,26 +1,52 @@
 ---
+/**
+ * Semantic text variants from kmk360 textConfig, mapped to nearest Tailwind.
+ *
+ * Size map (token → closest TW):
+ *   4xl 32 → text-3xl (30)   3xl 26 → text-2xl (24)   2xl 22 → text-xl (20)
+ *   lg 18 → text-lg          base 16 → text-base      sm 14 → text-sm
+ * Weight: bold (600) → font-semibold
+ * Line height: 1.25 → leading-tight; 1.2 → leading-tight
+ * Family: poppins headlines → font-display (site display face)
+ */
+type Variant =
+	| 'headline1'
+	| 'headline2'
+	| 'title'
+	| 'titleEmphasized'
+	| 'label'
+	| 'labelEmphasized'
+	| 'body1'
+	| 'body1Emphasized'
+	| 'body2'
+	| 'body2Emphasized';
+
+type Element = 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'label';
+
 interface Props {
-  size?: 'sm' | 'md' | 'lg';
-  emphasized?: boolean;
-  class?: string;
+	variant?: Variant;
+	as?: Element;
+	class?: string;
 }
 
-const { size = 'md', emphasized = false, class: className } = Astro.props;
+const { variant = 'body1', as = 'p', class: className } = Astro.props;
 
-const sizeClasses = {
-  sm: 'text-base/6',
-  md: 'text-lg/7',
-  lg: 'text-xl/8 sm:text-2xl/9',
+const variantClasses: Record<Variant, string> = {
+	headline1: 'font-display text-3xl font-normal leading-tight tracking-tight',
+	headline2: 'font-display text-2xl font-normal leading-tight tracking-tight',
+	title: 'font-sans text-xl font-normal leading-tight',
+	titleEmphasized: 'font-sans text-xl font-semibold leading-tight',
+	label: 'font-sans text-lg font-normal leading-tight',
+	labelEmphasized: 'font-sans text-lg font-semibold leading-tight',
+	body1: 'font-sans text-base font-normal leading-tight',
+	body1Emphasized: 'font-sans text-base font-semibold leading-tight',
+	body2: 'font-sans text-sm font-normal leading-tight',
+	body2Emphasized: 'font-sans text-sm font-semibold leading-tight',
 };
+
+const Element = as;
 ---
 
-<div
-  class:list={[
-    sizeClasses[size],
-    'text-secondary',
-    emphasized && 'font-semibold text-primary',
-    className,
-  ]}
->
-  <slot />
-</div>
+<Element class:list={[variantClasses[variant], className]}>
+	<slot />
+</Element>

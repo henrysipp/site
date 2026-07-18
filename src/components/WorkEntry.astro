@@ -1,4 +1,6 @@
 ---
+import Text from './Text.astro';
+
 interface Props {
   company: string;
   title: string;
@@ -15,10 +17,12 @@ const { company, title, href, class: className } = Astro.props;
   </span>
   <div class="flex flex-col whitespace-nowrap">
     {href ? (
-      <a href={href} target="_blank" rel="noopener noreferrer" class="font-medium text-primary hover:underline">{company}</a>
+      <a href={href} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+        <Text variant="body1Emphasized" as="span">{company}</Text>
+      </a>
     ) : (
-      <span class="font-medium text-primary">{company}</span>
+      <Text variant="body1Emphasized" as="span" class="text-primary">{company}</Text>
     )}
-    <span class="text-sm text-tertiary">{title}</span>
+    <Text variant="body2" as="span" class="text-tertiary">{title}</Text>
   </div>
 </div>

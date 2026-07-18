@@ -1,0 +1,214 @@
+---
+/**
+ * Astro port of briOS renderBlocks — renders processed Notion blocks as real DOM.
+ */
+import NotionRichText from './NotionRichText.astro';
+import NotionBlocks from './NotionBlocks.astro';
+import type { ProcessedBlock } from '../lib/notion/types';
+
+interface Props {
+	blocks: ProcessedBlock[];
+}
+
+const { blocks } = Astro.props;
+
+type Segment =
+	| { kind: 'block'; block: ProcessedBlock }
+	| { kind: 'ul' | 'ol'; items: ProcessedBlock[] };
+
+const segments: Segment[] = [];
+let i = 0;
+while (i < blocks.length) {
+	const block = blocks[i]!;
+	if (block.type === 'bulleted_list_item') {
+		const items: ProcessedBlock[] = [];
+		while (i < blocks.length && blocks[i]!.type === 'bulleted_list_item') {
+			items.push(blocks[i]!);
+			i += 1;
+		}
+		segments.push({ kind: 'ul', items });
+		continue;
+	}
+	if (block.type === 'numbered_list_item') {
+		const items: ProcessedBlock[] = [];
+		while (i < blocks.length && blocks[i]!.type === 'numbered_list_item') {
+			items.push(blocks[i]!);
+			i += 1;
+		}
+		segments.push({ kind: 'ol', items });
+		continue;
+	}
+	segments.push({ kind: 'block', block });
+	i += 1;
+}
+---
+
+{
+	segments.map((segment) => {
+		if (segment.kind === 'ul') {
+			return (
+				<ul class="my-4 list-disc space-y-2 pl-5 text-primary">
+					{segment.items.map((item) => (
+						<li class="leading-relaxed">
+							<NotionRichText content={item.content} />
+							{item.children && item.children.length > 0 && (
+								<NotionBlocks blocks={item.children} />
+							)}
+						</li>
+					))}
+				</ul>
+			);
+		}
+
+		if (segment.kind === 'ol') {
+			return (
+				<ol class="my-4 list-decimal space-y-2 pl-5 text-primary">
+					{segment.items.map((item) => (
+						<li class="leading-relaxed">
+							<NotionRichText content={item.content} />
+							{item.children && item.children.length > 0 && (
+								<NotionBlocks blocks={item.children} />
+							)}
+						</li>
+					))}
+				</ol>
+			);
+		}
+
+		const block = segment.block;
+
+		if (block.type === 'table' && block.tableRows) {
+			return (
+				<div class="my-6 overflow-x-auto">
+					<table class="w-full border-collapse border border-neutral-200 text-sm dark:border-neutral-700">
+						<tbody>
+							{block.tableRows.map((row, rowIndex) => {
+								const cells = row.cells || [];
+								const isHeader =
+									rowIndex === 0 && block.hasColumnHeader;
+								const Cell = isHeader ? 'th' : 'td';
+								return (
+									<tr class={isHeader ? 'bg-neutral-100 dark:bg-neutral-800' : undefined}>
+										{cells.map((cell) => (
+											<Cell
+												class:list={[
+													'border border-neutral-200 px-3 py-2 text-left dark:border-neutral-700',
+													isHeader
+														? 'font-semibold text-primary'
+														: 'text-secondary',
+												]}
+											>
+												{cell.map((rt) => rt.plain_text).join('')}
+											</Cell>
+										))}
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+				</div>
+			);
+		}
+
+		switch (block.type) {
+			case 'quote':
+				return (
+					<blockquote class="my-4 border-l-2 border-neutral-400 pl-5 text-secondary leading-relaxed dark:border-neutral-500">
+						<NotionRichText content={block.content} />
+					</blockquote>
+				);
+			case 'paragraph':
+				return (
+					<p class="my-3 text-primary leading-relaxed">
+						<NotionRichText content={block.content} />
+					</p>
+				);
+			case 'heading_1':
+				return (
+					<h2 class="mt-8 mb-3 font-display text-3xl font-normal tracking-tight text-primary">
+						<NotionRichText content={block.content} />
+					</h2>
+				);
+			case 'heading_2':
+				return (
+					<h3 class="mt-6 mb-2 font-display text-2xl font-normal tracking-tight text-primary">
+						<NotionRichText content={block.content} />
+					</h3>
+				);
+			case 'heading_3':
+				return (
+					<h4 class="mt-5 mb-2 font-sans text-xl font-semibold text-primary">
+						<NotionRichText content={block.content} />
+					</h4>
+				);
+			case 'to_do':
+				return (
+					<div class="my-2 flex items-start gap-2 text-secondary leading-relaxed">
+						<input type="checkbox" disabled class="mt-1" />
+						<span>
+							<NotionRichText content={block.content} />
+						</span>
+					</div>
+				);
+			case 'toggle':
+				return (
+					<details class="my-2 text-secondary leading-relaxed">
+						<summary class="cursor-pointer">
+							<NotionRichText content={block.content} />
+						</summary>
+						{block.children && block.children.length > 0 && (
+							<div class="mt-2 pl-1">
+								<NotionBlocks blocks={block.children} />
+							</div>
+						)}
+					</details>
+				);
+			case 'callout':
+				return (
+					<aside class="my-4 rounded-md border border-neutral-200 bg-neutral-50 px-4 py-3 text-secondary dark:border-neutral-700 dark:bg-neutral-900/50">
+						<NotionRichText content={block.content} />
+						{block.children && block.children.length > 0 && (
+							<div class="mt-2">
+								<NotionBlocks blocks={block.children} />
+							</div>
+						)}
+					</aside>
+				);
+			case 'code':
+				return (
+					<pre class="my-4 overflow-x-auto rounded-md bg-neutral-900 p-4 text-sm text-neutral-100">
+						<code>{block.content.map((t) => t.text.content).join('')}</code>
+					</pre>
+				);
+			case 'divider':
+				return (
+					<hr class="my-8 border-t border-neutral-200 dark:border-neutral-700" />
+				);
+			case 'image':
+				return (
+					<div class="my-6">
+						<img
+							src={block.content[0]?.text.content}
+							alt=""
+							class="w-full rounded-lg"
+							loading="lazy"
+						/>
+					</div>
+				);
+			case 'video':
+				return (
+					<div class="my-6">
+						<video
+							src={block.videoUrl}
+							controls
+							playsinline
+							preload="metadata"
+							class="w-full rounded-lg"
+						/>
+					</div>
+				);
+			default:
+				return null;
+		}
+	})
+}
