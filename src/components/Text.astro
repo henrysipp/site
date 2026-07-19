@@ -7,7 +7,7 @@
  *   lg 18 → text-lg          base 16 → text-base      sm 14 → text-sm
  * Weight: bold (600) → font-semibold
  * Line height: 1.25 → leading-tight; 1.2 → leading-tight
- * Family: poppins headlines → font-display (site display face)
+ * Family: headlines + body → font-sans
  */
 type Variant =
 	| 'headline1'
@@ -32,8 +32,8 @@ interface Props {
 const { variant = 'body1', as = 'p', class: className } = Astro.props;
 
 const variantClasses: Record<Variant, string> = {
-	headline1: 'font-display text-3xl font-normal leading-tight tracking-tight',
-	headline2: 'font-display text-2xl font-normal leading-tight tracking-tight',
+	headline1: 'font-sans text-3xl font-bold leading-tight tracking-tight',
+	headline2: 'font-sans text-2xl font-normal leading-tight tracking-tight',
 	title: 'font-sans text-xl font-normal leading-tight',
 	titleEmphasized: 'font-sans text-xl font-semibold leading-tight',
 	label: 'font-sans text-lg font-normal leading-tight',

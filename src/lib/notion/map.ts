@@ -1,5 +1,9 @@
 import type { PageObjectResponse } from '@notionhq/client';
-import { BlogSchema, GearSchema } from '../../../schemas/notionSchemas';
+import {
+	BlogSchema,
+	GearSchema,
+	WorkSchema,
+} from '../../../schemas/notionSchemas';
 import { slugify } from './slug';
 import type { ProcessedBlock } from './types';
 
@@ -34,6 +38,19 @@ export type GearItem = {
 
 export type GearItemWithBody = GearItem & {
 	blocks: ProcessedBlock[];
+};
+
+export type WorkItem = {
+	id: string;
+	name: string;
+	slug: string;
+	url?: string;
+	period?: string;
+	order: number;
+	external: boolean;
+	invert: boolean;
+	/** Notion page icon URL (file/external), if set. */
+	iconUrl?: string;
 };
 
 function richTextPlain(
@@ -207,4 +224,40 @@ export function mapGearPage(page: PageObjectResponse): GearItem | null {
 export function isPublishedBlog(post: BlogPost): boolean {
 	if (post.status && post.status !== 'Published') return false;
 	return post.pubDate != null;
+}
+
+function pageIconUrl(page: PageObjectResponse): string | undefined {
+	const icon = page.icon;
+	if (!icon) return undefined;
+	if (icon.type === 'external') return icon.external.url;
+	if (icon.type === 'file') return icon.file.url;
+	return undefined;
+}
+
+export function mapWorkPage(page: PageObjectResponse): WorkItem | null {
+	if (page.in_trash) return null;
+
+	const flat = flattenProperties(page);
+	const parsed = WorkSchema.safeParse(flat);
+	const data = parsed.success ? parsed.data : flat;
+
+	const name =
+		(typeof data.Name === 'string' && data.Name) ||
+		richTextPlain(page.properties.Name) ||
+		'Untitled';
+
+	return {
+		id: page.id,
+		name,
+		slug: slugify(name),
+		url: typeof data.URL === 'string' && data.URL ? data.URL : undefined,
+		period:
+			typeof data.Period === 'string' && data.Period
+				? data.Period
+				: undefined,
+		order: typeof data.Order === 'number' ? data.Order : Number.POSITIVE_INFINITY,
+		external: data.External === true,
+		invert: data.Invert === true,
+		iconUrl: pageIconUrl(page),
+	};
 }

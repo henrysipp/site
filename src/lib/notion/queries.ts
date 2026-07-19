@@ -9,16 +9,21 @@ import {
 	getBlogDatabaseId,
 	getGearDatabaseId,
 	getNotionClient,
+	getRootPageId,
+	getWorkDatabaseId,
 } from './client';
 import {
 	isPublishedBlog,
 	mapBlogPage,
 	mapGearPage,
+	mapWorkPage,
 	type BlogPost,
 	type BlogPostWithBody,
 	type GearItem,
 	type GearItemWithBody,
+	type WorkItem,
 } from './map';
+import type { ProcessedBlock } from './types';
 
 async function getDataSourceId(databaseId: string): Promise<string> {
 	return cachedNotionQuery(
@@ -140,5 +145,77 @@ export async function getGearItemBySlug(
 			return { ...match, blocks };
 		},
 		{ ttl: CACHE_TTLS.CONTENT },
+	);
+}
+
+/** Root site page: Notion page title + body blocks (skips child DBs / empty paragraphs). */
+export async function getRootPage(): Promise<{
+	title: string;
+	blocks: ProcessedBlock[];
+}> {
+	const pageId = getRootPageId();
+	if (!pageId) return { title: '', blocks: [] };
+
+	return cachedNotionQuery(
+		'notion:root:page',
+		async () => {
+			const notion = getNotionClient();
+			const page = await notion.pages.retrieve({ page_id: pageId });
+			let title = '';
+			if (isFullPage(page)) {
+				const titleProp = Object.values(page.properties).find(
+					(prop) => prop.type === 'title',
+				);
+				if (titleProp?.type === 'title') {
+					title = titleProp.title.map((t) => t.plain_text).join('').trim();
+				}
+			}
+
+			const blocks = (await getAllBlocks(pageId)).filter((block) => {
+				if (
+					block.type === 'divider' ||
+					block.type === 'image' ||
+					block.type === 'video'
+				) {
+					return true;
+				}
+				return block.content.some((rt) => rt.text.content.trim().length > 0);
+			});
+
+			return { title, blocks };
+		},
+		{ ttl: CACHE_TTLS.CONTENT },
+	);
+}
+
+export async function getWorkItems(): Promise<WorkItem[]> {
+	const databaseId = getWorkDatabaseId();
+	if (!databaseId) return [];
+
+	return cachedNotionQuery(
+		'notion:work:list',
+		async () => {
+			const notion = getNotionClient();
+			const dataSourceId = await getDataSourceId(databaseId);
+			const rows = await collectPaginatedAPI(
+				(args) => notion.dataSources.query(args),
+				{
+					data_source_id: dataSourceId,
+					sorts: [
+						{
+							property: 'Order',
+							direction: 'ascending',
+						},
+					],
+				},
+			);
+
+			return rows
+				.filter(isFullPage)
+				.map((page) => mapWorkPage(page as PageObjectResponse))
+				.filter((item): item is WorkItem => item != null)
+				.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+		},
+		{ ttl: CACHE_TTLS.LIST },
 	);
 }

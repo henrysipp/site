@@ -1,20 +1,43 @@
 ---
 export const prerender = false;
 
-import NestedSectionLayout from '../../layouts/NestedSectionLayout.astro';
+import BackLink from '../../components/BackLink.astro';
+import BaseHead from '../../components/BaseHead.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import LeaderRow from '../../components/LeaderRow.astro';
+import Text from '../../components/Text.astro';
 import { getBlogPosts } from '../../lib/notion';
 
 const posts = await getBlogPosts();
-const items = posts.map((post) => ({
-	href: `/blog/${post.slug}`,
-	label: post.title,
-	date: post.pubDate?.toISOString(),
-}));
 ---
 
-<NestedSectionLayout
-	title="Blog"
-	description="Writing and notes"
-	sectionLabel="Blog"
-	items={items}
-/>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Writing" description="Writing and notes" />
+	</head>
+	<body class="min-h-screen bg-body text-primary">
+		<main class="mx-auto max-w-3xl px-6 py-16 md:px-12 md:py-24">
+			<BackLink />
+
+			<Text variant="headline1" as="h1" class="mt-8 text-primary">Writing</Text>
+
+			{posts.length > 0 ? (
+				<ul class="mt-10 flex flex-col gap-5">
+					{posts.map((post) => (
+						<li>
+							<LeaderRow href={`/blog/${post.slug}`}>
+								{post.title}
+								{post.pubDate && (
+									<FormattedDate slot="trailing" date={post.pubDate} />
+								)}
+							</LeaderRow>
+						</li>
+					))}
+				</ul>
+			) : (
+				<Text variant="body1" class="mt-10 text-secondary">No posts yet.</Text>
+			)}
+		</main>
+	</body>
+</html>

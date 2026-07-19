@@ -61,15 +61,3 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
-
-
-<script>
-	import Lenis from 'lenis';
-
-	new Lenis({
-		autoRaf: true,
-		duration: 1.2,
-		easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-		smoothWheel: true,
-	});
-</script>

@@ -14,6 +14,11 @@ export function getNotionToken(): string {
 	return env('NOTION_TOKEN');
 }
 
+export function getRootPageId(): string {
+	const raw = env('NOTION_ROOT_PAGE_ID');
+	return extractNotionId(raw) ?? raw.replaceAll('-', '');
+}
+
 export function getBlogDatabaseId(): string {
 	const raw = env('NOTION_BLOG_DATABASE_ID');
 	return extractNotionId(raw) ?? raw.replaceAll('-', '');
@@ -21,6 +26,11 @@ export function getBlogDatabaseId(): string {
 
 export function getGearDatabaseId(): string {
 	const raw = env('NOTION_GEAR_DATABASE_ID');
+	return extractNotionId(raw) ?? raw.replaceAll('-', '');
+}
+
+export function getWorkDatabaseId(): string {
+	const raw = env('NOTION_WORK_DATABASE_ID');
 	return extractNotionId(raw) ?? raw.replaceAll('-', '');
 }
 

@@ -1,39 +1,115 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
-import SidebarLayout from '../layouts/SidebarLayout.astro';
-import Text from '../components/Text.astro';
-import WorkEntry from '../components/WorkEntry.astro';
-import HorizontalScroller from '../components/HorizontalScroller.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import DPL from '../assets/dontpaniclabs.svg';
+import { Image } from 'astro:assets';
 import Archrival from '../assets/archrival.svg';
-import Spreetail from '../assets/spreetail.svg';
-import Meta from '../assets/meta.svg';
+import henry from '../assets/henry.jpg';
 import Homebound from '../assets/homebound.svg';
+import Kodestarters from '../assets/kodestarters.svg';
+import Meta from '../assets/meta.svg';
+import Spreetail from '../assets/spreetail.svg';
+import BaseHead from '../components/BaseHead.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import LeaderRow from '../components/LeaderRow.astro';
+import NotionBlocks from '../components/NotionBlocks.astro';
+import Text from '../components/Text.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getBlogPosts, getRootPage, getWorkItems } from '../lib/notion';
+
+const workIcons = {
+	homebound: Homebound,
+	meta: Meta,
+	spreetail: Spreetail,
+	archrival: Archrival,
+	kodestarters: Kodestarters,
+} as const;
+
+const [rootPage, workItems, recentPosts] = await Promise.all([
+	getRootPage(),
+	getWorkItems(),
+	getBlogPosts().then((posts) => posts.slice(0, 5)),
+]);
+
+const siteTitle = rootPage.title || SITE_TITLE;
+const aboutBlocks = rootPage.blocks;
 ---
 
-<SidebarLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<Text variant="headline1" as="h1" class="text-primary">{SITE_TITLE}</Text>
-	<Text variant="body1" class="mt-2 text-secondary">
-		Software engineer in Lincoln, Nebraska
-	</Text>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={siteTitle} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="min-h-screen bg-body text-primary">
+		<main class="mx-auto max-w-3xl px-6 py-16 md:px-12 md:py-24 flex flex-col gap-8 md:gap-12">
+			<Image
+				src={henry}
+				alt="Henry Sipp"
+				width={160}
+				height={160}
+				class="size-20 rounded-full object-cover md:size-20"
+			/>
 
-	<HorizontalScroller class="mt-10">
-		<WorkEntry company="Homebound" title="Staff Software Engineer" href="https://homebound.com">
-			<span class="h-full dark:invert"><Homebound /></span>
-		</WorkEntry>
-		<WorkEntry company="Meta" title="Software Engineer" href="https://meta.com">
-			<Meta />
-		</WorkEntry>
-		<WorkEntry company="Spreetail" title="Senior Software Engineer" href="https://spreetail.com">
-			<Spreetail />
-		</WorkEntry>
-		<WorkEntry company="Archrival" title="Software Engineer" href="https://archrival.com">
-			<Archrival />
-		</WorkEntry>
-		<WorkEntry company="Don't Panic Labs" title="Engineering Intern" href="https://dontpaniclabs.com">
-			<DPL />
-		</WorkEntry>
-	</HorizontalScroller>
-</SidebarLayout>
+			<div class="flex flex-col gap-2">
+				<Text variant="headline1" as="h1" class="text-secondary">{siteTitle}</Text>
+
+				{aboutBlocks.length > 0 && (
+					<section
+						class="notion-blocks font-bold text-primary [&_p]:my-3 [&_p]:text-primary -mt-3"
+						aria-label="About"
+					>
+						<NotionBlocks blocks={aboutBlocks} />
+					</section>
+				)}
+			</div>
+
+			{workItems.length > 0 && (
+				<ul class="flex flex-col gap-5" aria-label="Work">
+					{workItems.map((item) => {
+						const Icon = workIcons[item.slug as keyof typeof workIcons];
+						return (
+							<li>
+								<LeaderRow
+									href={item.url}
+									external={item.external}
+									invert={item.invert}
+								>
+									{Icon ? (
+										<Icon slot="icon" />
+									) : item.iconUrl ? (
+										<img
+											slot="icon"
+											src={item.iconUrl}
+											alt=""
+											width={24}
+											height={24}
+											class="size-6 object-contain"
+										/>
+									) : null}
+									{item.name}
+									{item.period && <span slot="trailing">{item.period}</span>}
+								</LeaderRow>
+							</li>
+						);
+					})}
+				</ul>
+			)}
+
+			{recentPosts.length > 0 && (
+				<section class="" aria-label="Recent blog posts">
+					<ul class="mt-6 flex flex-col gap-5">
+						{recentPosts.map((post) => (
+							<li>
+								<LeaderRow href={`/blog/${post.slug}`}>
+									{post.title}
+									{post.pubDate && (
+										<FormattedDate slot="trailing" date={post.pubDate} />
+									)}
+								</LeaderRow>
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
+		</main>
+	</body>
+</html>

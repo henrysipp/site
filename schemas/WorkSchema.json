@@ -1,0 +1,48 @@
+{
+  "props": {
+    "Period": {
+      "id": "%3D%60iW",
+      "name": "Period",
+      "description": null,
+      "type": "rich_text",
+      "rich_text": {}
+    },
+    "Order": {
+      "id": "%40RGX",
+      "name": "Order",
+      "description": null,
+      "type": "number",
+      "number": {
+        "format": "number"
+      }
+    },
+    "URL": {
+      "id": "PNRJ",
+      "name": "URL",
+      "description": null,
+      "type": "url",
+      "url": {}
+    },
+    "External": {
+      "id": "gaoh",
+      "name": "External",
+      "description": null,
+      "type": "checkbox",
+      "checkbox": {}
+    },
+    "Invert": {
+      "id": "tJEq",
+      "name": "Invert",
+      "description": null,
+      "type": "checkbox",
+      "checkbox": {}
+    },
+    "Name": {
+      "id": "title",
+      "name": "Name",
+      "description": null,
+      "type": "title",
+      "title": {}
+    }
+  }
+}

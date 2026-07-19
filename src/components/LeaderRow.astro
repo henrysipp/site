@@ -1,0 +1,48 @@
+---
+interface Props {
+	href?: string;
+	/** Open in a new tab (external work links). */
+	external?: boolean;
+	/** Invert the icon in dark mode (e.g. Homebound). */
+	invert?: boolean;
+	class?: string;
+}
+
+const { href, external = false, invert = false, class: className } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const hasIcon = Astro.slots.has('icon');
+---
+
+<Tag
+	href={href}
+	target={href && external ? '_blank' : undefined}
+	rel={href && external ? 'noopener noreferrer' : undefined}
+	class:list={[
+		'flex items-baseline gap-3 font-sans text-base leading-tight text-tertiary',
+		className,
+		href &&
+			'group transition-colors hover:text-neutral-900 dark:hover:text-white',
+	]}
+>
+	<span class:list={['shrink-0', hasIcon && 'inline-flex items-center gap-3']}>
+		{hasIcon && (
+			<span
+				class:list={[
+					'flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden',
+					'[&_svg]:h-6 [&_svg]:w-auto [&_svg]:max-w-6',
+					invert && 'dark:invert',
+				]}
+			>
+				<slot name="icon" />
+			</span>
+		)}
+		<slot />
+	</span>
+	<span
+		class="mx-1 h-px min-w-4 flex-1 bg-[radial-gradient(circle,currentColor_0.75px,transparent_0.85px)] bg-[length:6px_1px] bg-repeat-x opacity-40"
+		aria-hidden="true"
+	/>
+	<span class="shrink-0 tabular-nums">
+		<slot name="trailing" />
+	</span>
+</Tag>

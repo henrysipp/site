@@ -1,5 +1,3 @@
-@import 'lenis/dist/lenis.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +6,6 @@
   :root {
     --color-body: theme('colors.neutral.100');
     --color-canvas: theme('colors.white');
-    --top-bar-height: 3.5rem;
     --glass-brightness: 105%;
     --glass-blend-mode: multiply;
 
@@ -18,7 +15,7 @@
   }
 
   .dark {
-    --color-body: theme('colors.neutral.900');
+    --color-body: theme('colors.neutral.950');
     --color-canvas: theme('colors.neutral.800');
     --glass-brightness: 125%;
     --glass-blend-mode: screen;
@@ -30,7 +27,7 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-body: theme('colors.neutral.900');
+      --color-body: theme('colors.neutral.950');
       --color-canvas: theme('colors.neutral.800');
       --glass-brightness: 125%;
       --glass-blend-mode: screen;
@@ -86,14 +83,6 @@
       0 0 25px rgb(0 0 0 / 13%),
       1px 1px 7px rgb(0 0 0 / 20%);
   }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -105,20 +94,6 @@
       0 10px 60px -10px rgb(0 0 0 / 20%),
       0 0 25px rgb(0 0 0 / 13%),
       1px 1px 7px rgb(0 0 0 / 20%);
-  }
-}
-
-::view-transition-old(page-main),
-::view-transition-new(page-main) {
-  animation-duration: 280ms;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
   }
 }
 

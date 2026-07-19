@@ -29,3 +29,14 @@ export const GearSchema = z.object({
 
 export type Gear = z.infer<typeof GearSchema>;
 
+export const WorkSchema = z.object({
+  Period: z.string().optional(),
+  Order: z.number().optional(),
+  URL: z.string().optional(),
+  External: z.boolean().optional(),
+  Invert: z.boolean().optional(),
+  Name: z.string().optional(),
+});
+
+export type Work = z.infer<typeof WorkSchema>;
+

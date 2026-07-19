@@ -1,0 +1,16 @@
+---
+import ChevronLeftIcon from './icons/ChevronLeftIcon.astro';
+import GlassLinkButton from './GlassLinkButton.astro';
+
+interface Props {
+	href?: string;
+	label?: string;
+}
+
+const { href = '/', label = 'Home' } = Astro.props;
+---
+
+<GlassLinkButton href={href} ariaLabel={label}>
+	<ChevronLeftIcon slot="icon" />
+	{label}
+</GlassLinkButton>

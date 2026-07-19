@@ -2,9 +2,9 @@
 /**
  * Astro port of briOS renderBlocks — renders processed Notion blocks as real DOM.
  */
-import NotionRichText from './NotionRichText.astro';
-import NotionBlocks from './NotionBlocks.astro';
 import type { ProcessedBlock } from '../lib/notion/types';
+import NotionBlocks from './NotionBlocks.astro';
+import NotionRichText from './NotionRichText.astro';
 
 interface Props {
 	blocks: ProcessedBlock[];
@@ -125,19 +125,19 @@ while (i < blocks.length) {
 				);
 			case 'heading_1':
 				return (
-					<h2 class="mt-8 mb-3 font-display text-3xl font-normal tracking-tight text-primary">
+					<h2 class="mt-8 font-sans text-3xl font-bold leading-10 tracking-tight text-primary">
 						<NotionRichText content={block.content} />
 					</h2>
 				);
 			case 'heading_2':
 				return (
-					<h3 class="mt-6 mb-2 font-display text-2xl font-normal tracking-tight text-primary">
+					<h3 class="mt-6 font-sans text-2xl font-bold tracking-tight text-primary">
 						<NotionRichText content={block.content} />
 					</h3>
 				);
 			case 'heading_3':
 				return (
-					<h4 class="mt-5 mb-2 font-sans text-xl font-semibold text-primary">
+					<h4 class="mt-5 font-sans text-xl font-semibold text-primary">
 						<NotionRichText content={block.content} />
 					</h4>
 				);

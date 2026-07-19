@@ -156,12 +156,13 @@ async function generateSchemas() {
 	const databases: DatabaseConfig[] = [
 		{ varName: 'Blog', id: normalizeId(process.env.NOTION_BLOG_DATABASE_ID) },
 		{ varName: 'Gear', id: normalizeId(process.env.NOTION_GEAR_DATABASE_ID) },
+		{ varName: 'Work', id: normalizeId(process.env.NOTION_WORK_DATABASE_ID) },
 	];
 
 	const configured = databases.filter((db) => db.id);
 	if (configured.length === 0) {
 		console.log(
-			'No NOTION_BLOG_DATABASE_ID / NOTION_GEAR_DATABASE_ID set. Skipping.',
+			'No NOTION_*_DATABASE_ID set. Skipping.',
 		);
 		return;
 	}
